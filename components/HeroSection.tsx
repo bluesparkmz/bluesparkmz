@@ -1,6 +1,6 @@
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import skyvendaPreview from "@/assets/skyvenda-preview.webp";
+const skyvendaPreview = "/skyvenda-preview.webp";
 
 const HeroSection = () => {
   return (

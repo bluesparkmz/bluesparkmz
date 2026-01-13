@@ -3,11 +3,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AnimatedSection from "./AnimatedSection";
 
-import skyvendaPreview from "@/assets/skyvenda-preview.webp";
-import skywalletPreview from "@/assets/skywallet-preview.png";
-import smartmozPreview from "@/assets/smartmoz-preview.png";
-import fastfoodPreview from "@/assets/fastfood-preview.png";
-import skypdvPreview from "@/assets/skypdv-preview.png";
+const skyvendaPreview = "/skyvenda-preview.webp";
+const skywalletPreview = "/skywallet-preview.png";
+const smartmozPreview = "/smartmoz-preview.png";
+const fastfoodPreview = "/fastfood-preview.png";
+const skypdvPreview = "/skypdv-preview.png";
 
 const projects = [
   {
