@@ -76,44 +76,19 @@ const HeroSection = () => {
 
           {/* Right Content - Phone Mockup */}
           <div className="relative flex justify-center lg:justify-end animate-fade-in-right" style={{ animationDelay: "0.3s" }}>
-            <div className="relative">
+            <div className="relative group cursor-pointer">
               {/* Glow Effect */}
-              <div className="absolute inset-0 bg-indigo-gradient rounded-[3rem] blur-3xl opacity-20 scale-90" />
-              
+              <div className="absolute inset-0 bg-indigo-gradient rounded-[3rem] blur-3xl opacity-20 scale-90 group-hover:opacity-30 group-hover:scale-95 transition-all duration-500" />
+
               {/* Phone Frame */}
-              <div className="relative bg-card rounded-[2.5rem] p-3 shadow-2xl border border-border/50">
+              <div className="relative bg-card rounded-[2.5rem] p-3 shadow-2xl border border-border/50 transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-indigo-lg">
                 <div className="relative rounded-[2rem] overflow-hidden">
                   {/* Screen Content */}
                   <img
                     src={skyvendaPreview}
                     alt="SkyVenda MZ App Preview"
-                    className="w-72 md:w-80 h-auto object-cover rounded-[2rem]"
+                    className="w-80 md:w-96 lg:w-[26rem] xl:w-[32rem] h-auto object-cover rounded-[2rem]"
                   />
-                </div>
-              </div>
-
-              {/* Floating Elements */}
-              <div className="absolute -left-8 top-20 bg-card rounded-2xl p-4 shadow-lg border border-border/50 animate-float">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-instagram-gradient rounded-xl flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">SkyVenda MZ</div>
-                    <div className="text-xs text-muted-foreground">Rede Social de Vendas</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute -right-4 bottom-32 bg-card rounded-2xl p-4 shadow-lg border border-border/50 animate-float" style={{ animationDelay: "1.5s" }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-indigo-gradient rounded-xl flex items-center justify-center">
-                    <span className="text-lg">🚀</span>
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">Em Crescimento</div>
-                    <div className="text-xs text-muted-foreground">Norte de Moçambique</div>
-                  </div>
                 </div>
               </div>
             </div>
