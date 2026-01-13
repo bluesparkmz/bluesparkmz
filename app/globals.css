@@ -97,6 +97,8 @@
     --border: 240 10% 15%;
     --input: 240 10% 15%;
     --ring: 239 84% 67%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(240 10% 6%) 0%, hsl(239 10% 8%) 50%, hsl(240 10% 4%) 100%);
   }
 }
 
@@ -110,7 +112,12 @@
     font-family: 'Inter', sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Sora', sans-serif;
   }
 }
@@ -118,24 +125,24 @@
 @layer utilities {
   .text-gradient-indigo {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(239 76% 59%) 100%);
+    background-image: var(--gradient-indigo);
   }
 
   .text-gradient-instagram {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(45deg, hsl(329 100% 65%) 0%, hsl(270 100% 60%) 50%, hsl(25 100% 60%) 100%);
+    background-image: var(--gradient-instagram);
   }
 
   .bg-hero-gradient {
-    background: linear-gradient(135deg, hsl(240 100% 98%) 0%, hsl(239 100% 96%) 50%, hsl(240 20% 99%) 100%);
+    background: var(--gradient-hero);
   }
 
   .bg-indigo-gradient {
-    background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(239 76% 59%) 100%);
+    background: var(--gradient-indigo);
   }
 
   .bg-instagram-gradient {
-    background: linear-gradient(45deg, hsl(329 100% 65%) 0%, hsl(270 100% 60%) 50%, hsl(25 100% 60%) 100%);
+    background: var(--gradient-instagram);
   }
 
   .shadow-indigo {
@@ -161,9 +168,12 @@ html {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -173,15 +183,19 @@ html {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px hsl(239 84% 67% / 0.3);
   }
+
   50% {
     box-shadow: 0 0 40px hsl(239 84% 67% / 0.5);
   }

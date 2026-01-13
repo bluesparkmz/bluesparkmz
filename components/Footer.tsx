@@ -24,7 +24,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-foreground text-background py-16">
+    <footer className="bg-foreground text-background dark:bg-card dark:text-foreground py-16">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
@@ -37,10 +37,10 @@ const Footer = () => {
                 BlueSpark MZ
               </span>
             </a>
-            <p className="text-background/70 leading-relaxed mb-6">
+            <p className="text-background/70 dark:text-muted-foreground leading-relaxed mb-6">
               Startup de tecnologia moçambicana focada em criar soluções digitais inovadoras.
             </p>
-            <div className="flex items-center gap-2 text-sm text-background/50">
+            <div className="flex items-center gap-2 text-sm text-background/50 dark:text-muted-foreground/80">
               <MapPin className="w-4 h-4" />
               <span>Niassa, Moçambique</span>
             </div>
@@ -54,7 +54,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-background/70 hover:text-background transition-colors"
+                    className="text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </a>
@@ -73,7 +73,7 @@ const Footer = () => {
                     href={link.href}
                     target={link.href.startsWith("http") ? "_blank" : undefined}
                     rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="text-background/70 hover:text-background transition-colors"
+                    className="text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </a>
@@ -90,7 +90,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-background/70 hover:text-background transition-colors"
+                    className="text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </a>
@@ -101,11 +101,11 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-background/50 text-sm">
+        <div className="mt-12 pt-8 border-t border-background/10 dark:border-border flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-background/50 dark:text-muted-foreground/60 text-sm">
             © {currentYear} BlueSpark MZ. Todos os direitos reservados.
           </p>
-          <p className="text-background/50 text-sm flex items-center gap-1">
+          <p className="text-background/50 dark:text-muted-foreground/60 text-sm flex items-center gap-1">
             Feito com <Heart className="w-4 h-4 text-accent fill-accent" /> em Moçambique
           </p>
         </div>
