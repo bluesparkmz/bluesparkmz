@@ -19,13 +19,14 @@ export const metadata: Metadata = {
     default: "BlueSpark MZ",
     template: "%s | BlueSpark MZ",
   },
-  description: "BlueSpark MZ - Soluções Tecnológicas Inovadoras para Moçambique e além.",
+  description: "BlueSpark MZ é uma startup moçambicana especializada em desenvolvimento de software e tecnologias. O seu primeiro grande lançamento é o SkyVenda MZ.",
+  keywords: ["BlueSpark MZ", "Startup Moçambique", "Desenvolvimento de Software", "SkyVenda MZ", "Tecnologia Moçambique", "Niassa", "Apps Moçambique"],
   openGraph: {
     title: {
       default: "BlueSpark MZ",
       template: "%s | BlueSpark MZ",
     },
-    description: "BlueSpark MZ - Soluções Tecnológicas Inovadoras para Moçambique e além.",
+    description: "BlueSpark MZ é uma startup moçambicana especializada em desenvolvimento de software e tecnologias. O seu primeiro grande lançamento é o SkyVenda MZ.",
     url: "https://bluesparkmz.com",
     siteName: "BlueSpark MZ",
     images: [
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "BlueSpark MZ",
-    description: "BlueSpark MZ - Soluções Tecnológicas Inovadoras.",
+    description: "BlueSpark MZ - Startup Moçambicana de Tecnologia e Software.",
     images: ["/smartmoz-preview.png"],
   },
 };
