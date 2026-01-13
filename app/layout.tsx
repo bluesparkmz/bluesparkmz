@@ -15,8 +15,36 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BlueSpark MZ",
-  description: "BlueSpark MZ",
+  title: {
+    default: "BlueSpark MZ",
+    template: "%s | BlueSpark MZ",
+  },
+  description: "BlueSpark MZ - Soluções Tecnológicas Inovadoras para Moçambique e além.",
+  openGraph: {
+    title: {
+      default: "BlueSpark MZ",
+      template: "%s | BlueSpark MZ",
+    },
+    description: "BlueSpark MZ - Soluções Tecnológicas Inovadoras para Moçambique e além.",
+    url: "https://bluesparkmz.com",
+    siteName: "BlueSpark MZ",
+    images: [
+      {
+        url: "/smartmoz-preview.png", // Using one of the existing images as default
+        width: 1200,
+        height: 630,
+        alt: "BlueSpark MZ Preview",
+      },
+    ],
+    locale: "pt_MZ",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BlueSpark MZ",
+    description: "BlueSpark MZ - Soluções Tecnológicas Inovadoras.",
+    images: ["/smartmoz-preview.png"],
+  },
 };
 
 export default function RootLayout({
