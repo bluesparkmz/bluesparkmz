@@ -70,7 +70,7 @@ const Navbar = () => {
         } ${
           scrolled || isOpen
             ? "border-b border-border/50 bg-card shadow-none"
-            : "border-b border-transparent bg-transparent shadow-none"
+            : "border-b border-transparent bg-hero-gradient shadow-none"
         }`}
       >
         <div className="container mx-auto px-4 lg:px-8">
