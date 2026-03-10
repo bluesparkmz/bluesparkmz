@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const skyvendaPreview = "/skyvenda-preview.webp";
@@ -20,27 +20,20 @@ const HeroSection = () => {
 
       <div className="container relative z-10 mx-auto overflow-hidden px-4 pb-20 pt-32 lg:px-8 lg:pt-40">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-          <div className="space-y-8 animate-fade-in">
-            <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-border/50 bg-card px-4 py-2 shadow-sm">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-xs font-medium text-muted-foreground sm:text-sm">
-                Startup de Tecnologia em Moçambique
-              </span>
-            </div>
-
+          <div className="animate-fade-in space-y-8 text-center lg:text-left">
             <div className="space-y-4">
               <h1 className="text-4xl font-display font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
                 Transformamos <span className="text-gradient-indigo">Ideias</span>
                 <br />
                 em <span className="text-gradient-instagram">Soluções</span> Digitais
               </h1>
-              <p className="max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+              <p className="mx-auto max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl lg:mx-0">
                 Criamos aplicativos móveis, sistemas desktop e websites que
                 impulsionam negócios em Moçambique e além.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-8 py-4">
+            <div className="flex flex-wrap justify-center gap-8 py-4 lg:justify-start">
               <div className="space-y-1">
                 <div className="text-3xl font-display font-bold text-foreground">2023</div>
                 <div className="text-sm text-muted-foreground">Founded</div>
@@ -55,7 +48,7 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <Button variant="hero" size="xl" className="group w-full sm:w-auto" asChild>
                 <a href="#portfolio">
                   Ver Projetos
