@@ -19,19 +19,34 @@ export const metadata: Metadata = {
     default: "BlueSpark MZ",
     template: "%s | BlueSpark MZ",
   },
-  description: "BlueSpark MZ é uma startup moçambicana especializada em desenvolvimento de software e tecnologias. O seu primeiro grande lançamento é o SkyVenda MZ.",
-  keywords: ["BlueSpark MZ", "Startup Moçambique", "Desenvolvimento de Software", "SkyVenda MZ", "Tecnologia Moçambique", "Niassa", "Apps Moçambique"],
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
+  description:
+    "BlueSpark MZ é uma startup moçambicana especializada em desenvolvimento de software e tecnologias. O seu primeiro grande lançamento é o SkyVenda MZ.",
+  keywords: [
+    "BlueSpark MZ",
+    "Startup Moçambique",
+    "Desenvolvimento de Software",
+    "SkyVenda MZ",
+    "Tecnologia Moçambique",
+    "Niassa",
+    "Apps Moçambique",
+  ],
   openGraph: {
     title: {
       default: "BlueSpark MZ",
       template: "%s | BlueSpark MZ",
     },
-    description: "BlueSpark MZ é uma startup moçambicana especializada em desenvolvimento de software e tecnologias. O seu primeiro grande lançamento é o SkyVenda MZ.",
+    description:
+      "BlueSpark MZ é uma startup moçambicana especializada em desenvolvimento de software e tecnologias. O seu primeiro grande lançamento é o SkyVenda MZ.",
     url: "https://bluesparkmz.com",
     siteName: "BlueSpark MZ",
     images: [
       {
-        url: "/smartmoz-preview.png", // Using one of the existing images as default
+        url: "/smartmoz-preview.png",
         width: 1200,
         height: 630,
         alt: "BlueSpark MZ Preview",
@@ -54,7 +69,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

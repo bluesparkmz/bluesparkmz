@@ -1,0 +1,39 @@
+import type { ReactNode } from "react";
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
+
+export default function AuthPageShell({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main className="container mx-auto flex min-h-screen max-w-6xl items-center px-4 py-24">
+        <div className="grid w-full gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+          <section className="space-y-6">
+            <Link href="/" className="text-sm text-primary hover:underline">
+              Voltar ao site
+            </Link>
+            <div className="space-y-4">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground">
+                {title}
+              </h1>
+              <p className="max-w-xl text-base text-muted-foreground">
+                {description}
+              </p>
+            </div>
+          </section>
+          <section className="rounded-2xl border border-border bg-card p-6 shadow-sm lg:p-8">
+            {children}
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+}
