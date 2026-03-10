@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import Providers from "./providers";
@@ -61,6 +61,12 @@ export const metadata: Metadata = {
     description: "BlueSpark MZ - Startup Moçambicana de Tecnologia e Software.",
     images: ["/smartmoz-preview.png"],
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

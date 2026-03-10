@@ -17,11 +17,11 @@ const animations = {
     visible: "opacity-100 translate-y-0",
   },
   "fade-left": {
-    hidden: "opacity-0 -translate-x-10",
+    hidden: "opacity-0 translate-y-6 md:translate-y-0 md:-translate-x-10",
     visible: "opacity-100 translate-x-0",
   },
   "fade-right": {
-    hidden: "opacity-0 translate-x-10",
+    hidden: "opacity-0 translate-y-6 md:translate-y-0 md:translate-x-10",
     visible: "opacity-100 translate-x-0",
   },
   scale: {
@@ -47,7 +47,7 @@ const AnimatedSection = ({
     <div
       ref={ref}
       className={cn(
-        "transition-all duration-700 ease-out",
+        "w-full max-w-full transform-gpu transition-all duration-700 ease-out",
         isVisible ? visible : hidden,
         className
       )}
