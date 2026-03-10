@@ -19,19 +19,38 @@ const navLinks = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
   const { user, logout, isLoading } = useAuth();
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+
+      setScrolled(currentScrollY > 20);
+
+      if (currentScrollY <= 16) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+
+      lastScrollY = currentScrollY;
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
+    if (isOpen) {
+      setIsVisible(true);
+    }
     return () => {
       document.body.style.overflow = "";
     };
@@ -47,6 +66,8 @@ const Navbar = () => {
     <>
       <nav
         className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        } ${
           scrolled || isOpen
             ? "border-b border-border/50 bg-card shadow-lg"
             : "bg-transparent"
