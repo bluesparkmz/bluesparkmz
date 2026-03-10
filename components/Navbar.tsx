@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -20,8 +20,10 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const pathname = usePathname();
   const router = useRouter();
   const { user, logout, isLoading } = useAuth();
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -65,12 +67,12 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`sticky left-0 right-0 top-0 z-50 transition-all duration-300 ${
+        className={`${isHomePage ? "absolute" : "sticky"} left-0 right-0 top-0 z-50 transition-all duration-300 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         } ${
-          scrolled || isOpen
+          (!isHomePage || scrolled || isOpen)
             ? "border-b border-border/50 bg-card shadow-none"
-            : "border-b border-transparent bg-hero-gradient shadow-none"
+            : "border-b border-transparent bg-transparent shadow-none"
         }`}
       >
         <div className="container mx-auto px-4 lg:px-8">
