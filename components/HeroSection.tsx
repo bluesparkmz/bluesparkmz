@@ -5,7 +5,10 @@ const skyvendaPreview = "/skyvenda-preview.webp";
 
 const HeroSection = () => {
   return (
-    <section id="inicio" className="relative min-h-screen overflow-hidden bg-hero-gradient">
+    <section
+      id="inicio"
+      className="relative -mt-16 min-h-screen overflow-hidden bg-hero-gradient lg:-mt-20"
+    >
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute left-4 top-20 h-48 w-48 animate-pulse rounded-full bg-primary/5 blur-3xl sm:left-10 sm:h-72 sm:w-72" />
         <div

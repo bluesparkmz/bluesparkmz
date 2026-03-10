@@ -67,7 +67,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`${isHomePage ? "absolute" : "sticky"} left-0 right-0 top-0 z-50 transition-all duration-300 ${
+        className={`sticky left-0 right-0 top-0 z-50 transition-all duration-300 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         } ${
           (!isHomePage || scrolled || isOpen)
