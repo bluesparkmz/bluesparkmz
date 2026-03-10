@@ -69,7 +69,7 @@ const Navbar = () => {
           isVisible ? "translate-y-0" : "-translate-y-full"
         } ${
           scrolled || isOpen
-            ? "border-b border-border/50 bg-card shadow-lg"
+            ? "border-b border-border/50 bg-card shadow-none"
             : "border-b border-transparent bg-transparent shadow-none"
         }`}
       >
