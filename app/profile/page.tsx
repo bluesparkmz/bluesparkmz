@@ -38,7 +38,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.replace("/entrar");
+      router.replace("/login");
     }
   }, [isLoading, router, user]);
 
@@ -126,7 +126,7 @@ export default function ProfilePage() {
             variant="outline"
             onClick={() => {
               logout();
-              router.push("/entrar");
+              router.push("/login");
             }}
           >
             Terminar sessão

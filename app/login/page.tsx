@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import AuthPageShell from "@/components/auth/AuthPageShell";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { buildGoogleStartUrl } from "@/lib/accounts-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,7 +20,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!isLoading && user) {
-      router.replace("/perfil");
+      router.replace("/profile");
     }
   }, [isLoading, router, user]);
 
@@ -30,7 +31,7 @@ export default function LoginPage() {
     try {
       await login({ identifier, password });
       toast.success("Sessão iniciada");
-      router.push("/perfil");
+      router.push("/profile");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Falha no login");
     } finally {
@@ -71,9 +72,21 @@ export default function LoginPage() {
           {isSubmitting ? "A entrar..." : "Entrar"}
         </Button>
 
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          onClick={() => {
+            const nextUrl = `${window.location.origin}/auth/google/success`;
+            window.location.href = buildGoogleStartUrl(nextUrl);
+          }}
+        >
+          Entrar com Google
+        </Button>
+
         <p className="text-sm text-muted-foreground">
           Ainda não tem conta?{" "}
-          <Link href="/criar-conta" className="text-primary hover:underline">
+          <Link href="/register" className="text-primary hover:underline">
             Criar conta
           </Link>
         </p>

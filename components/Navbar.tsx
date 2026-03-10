@@ -63,10 +63,10 @@ const Navbar = () => {
             {!isLoading && !user ? (
               <>
                 <Button variant="ghost" size="lg" asChild>
-                  <Link href="/entrar">Entrar</Link>
+                  <Link href="/login">Entrar</Link>
                 </Button>
                 <Button variant="hero" size="lg" asChild>
-                  <Link href="/criar-conta">Criar conta</Link>
+                  <Link href="/register">Criar conta</Link>
                 </Button>
               </>
             ) : null}
@@ -74,14 +74,14 @@ const Navbar = () => {
             {!isLoading && user ? (
               <>
                 <Button variant="ghost" size="lg" asChild>
-                  <Link href="/perfil">Perfil</Link>
+                  <Link href="/profile">Perfil</Link>
                 </Button>
                 <Button
                   variant="hero"
                   size="lg"
                   onClick={() => {
                     logout();
-                    router.push("/entrar");
+                    router.push("/login");
                   }}
                 >
                   Sair
@@ -118,12 +118,12 @@ const Navbar = () => {
             {!isLoading && !user ? (
               <>
                 <Button variant="outline" className="mt-4" asChild>
-                  <Link href="/entrar" onClick={() => setIsOpen(false)}>
+                  <Link href="/login" onClick={() => setIsOpen(false)}>
                     Entrar
                   </Link>
                 </Button>
                 <Button variant="hero" asChild>
-                  <Link href="/criar-conta" onClick={() => setIsOpen(false)}>
+                  <Link href="/register" onClick={() => setIsOpen(false)}>
                     Criar conta
                   </Link>
                 </Button>
@@ -133,7 +133,7 @@ const Navbar = () => {
             {!isLoading && user ? (
               <>
                 <Button variant="outline" className="mt-4" asChild>
-                  <Link href="/perfil" onClick={() => setIsOpen(false)}>
+                  <Link href="/profile" onClick={() => setIsOpen(false)}>
                     Perfil
                   </Link>
                 </Button>
@@ -142,7 +142,7 @@ const Navbar = () => {
                   onClick={() => {
                     setIsOpen(false);
                     logout();
-                    router.push("/entrar");
+                    router.push("/login");
                   }}
                 >
                   Sair

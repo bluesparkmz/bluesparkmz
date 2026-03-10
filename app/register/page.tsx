@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import AuthPageShell from "@/components/auth/AuthPageShell";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { buildGoogleStartUrl } from "@/lib/accounts-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,7 +26,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (!isLoading && user) {
-      router.replace("/perfil");
+      router.replace("/profile");
     }
   }, [isLoading, router, user]);
 
@@ -47,7 +48,7 @@ export default function RegisterPage() {
         password: form.password,
       });
       toast.success("Conta criada com sucesso");
-      router.push("/perfil");
+      router.push("/profile");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Falha ao criar conta");
     } finally {
@@ -129,9 +130,21 @@ export default function RegisterPage() {
           {isSubmitting ? "A criar..." : "Criar conta"}
         </Button>
 
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          onClick={() => {
+            const nextUrl = `${window.location.origin}/auth/google/success`;
+            window.location.href = buildGoogleStartUrl(nextUrl);
+          }}
+        >
+          Continuar com Google
+        </Button>
+
         <p className="text-sm text-muted-foreground">
           Já tem conta?{" "}
-          <Link href="/entrar" className="text-primary hover:underline">
+          <Link href="/login" className="text-primary hover:underline">
             Entrar
           </Link>
         </p>

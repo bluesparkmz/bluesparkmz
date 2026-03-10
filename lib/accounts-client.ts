@@ -149,3 +149,7 @@ export async function deleteProfileImage(token: string) {
     },
   );
 }
+
+export function buildGoogleStartUrl(nextUrl: string) {
+  return `${API_URL}/auth/google/start?next=${encodeURIComponent(nextUrl)}`;
+}
