@@ -34,9 +34,9 @@ const Navbar = () => {
       if (currentScrollY <= 16) {
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY) {
-        setIsVisible(true);
-      } else {
         setIsVisible(false);
+      } else {
+        setIsVisible(true);
       }
 
       lastScrollY = currentScrollY;
