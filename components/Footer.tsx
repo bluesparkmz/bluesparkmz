@@ -1,22 +1,24 @@
-import { Zap, Heart, MapPin } from "lucide-react";
+import { Heart, MapPin, Zap } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const links = {
-    empresa: [
-      { label: "Sobre", href: "#sobre" },
-      { label: "Serviços", href: "#servicos" },
-      { label: "Portfólio", href: "#portfolio" },
-      { label: "Equipa", href: "#equipa" },
+    company: [
+      { label: "About", href: "#sobre" },
+      { label: "Services", href: "#servicos" },
+      { label: "Portfolio", href: "#portfolio" },
+      { label: "Team", href: "#equipa" },
     ],
-    produtos: [
+    products: [
       { label: "SkyVenda MZ", href: "https://skyvenda.com" },
       { label: "SkyWallet", href: "#portfolio" },
       { label: "SmartMoz", href: "#portfolio" },
-      { label: "Fastfood", href: "#portfolio" },
+      { label: "FastFood", href: "#portfolio" },
+      { label: "ContaBliza", href: "#portfolio" },
+      { label: "SparkFlow", href: "#portfolio" },
     ],
-    contacto: [
+    contact: [
       { label: "+258 86 071 6912", href: "tel:+258860716912" },
       { label: "+258 86 028 9475", href: "tel:+258860289475" },
       { label: "bluesparkmz1@gmail.com", href: "mailto:bluesparkmz1@gmail.com" },
@@ -24,37 +26,34 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-foreground text-background dark:bg-card dark:text-foreground py-16">
+    <footer className="bg-foreground py-16 text-background dark:bg-card dark:text-foreground">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand */}
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <a href="#inicio" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-indigo-gradient rounded-xl flex items-center justify-center">
-                <Zap className="w-5 h-5 text-primary-foreground" />
+            <a href="#inicio" className="mb-4 flex items-center gap-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-gradient">
+                <Zap className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-display font-bold">
-                BlueSpark MZ
-              </span>
+              <span className="text-xl font-display font-bold">BlueSpark MZ</span>
             </a>
-            <p className="text-background/70 dark:text-muted-foreground leading-relaxed mb-6">
-              Startup de tecnologia moçambicana focada em criar soluções digitais inovadoras.
+            <p className="mb-6 leading-relaxed text-background/70 dark:text-muted-foreground">
+              Startup de tecnologia moçambicana focada em software, automação e
+              plataformas digitais.
             </p>
             <div className="flex items-center gap-2 text-sm text-background/50 dark:text-muted-foreground/80">
-              <MapPin className="w-4 h-4" />
+              <MapPin className="h-4 w-4" />
               <span>Niassa, Moçambique</span>
             </div>
           </div>
 
-          {/* Empresa */}
           <div>
-            <h4 className="font-display font-semibold text-lg mb-4">Empresa</h4>
+            <h4 className="mb-4 text-lg font-display font-semibold">Company</h4>
             <ul className="space-y-3">
-              {links.empresa.map((link) => (
+              {links.company.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground transition-colors"
+                    className="transition-colors text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground"
                   >
                     {link.label}
                   </a>
@@ -63,17 +62,16 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Produtos */}
           <div>
-            <h4 className="font-display font-semibold text-lg mb-4">Produtos</h4>
+            <h4 className="mb-4 text-lg font-display font-semibold">Products</h4>
             <ul className="space-y-3">
-              {links.produtos.map((link) => (
+              {links.products.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
                     target={link.href.startsWith("http") ? "_blank" : undefined}
                     rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground transition-colors"
+                    className="transition-colors text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground"
                   >
                     {link.label}
                   </a>
@@ -82,15 +80,14 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contacto */}
           <div>
-            <h4 className="font-display font-semibold text-lg mb-4">Contacto</h4>
+            <h4 className="mb-4 text-lg font-display font-semibold">Contact</h4>
             <ul className="space-y-3">
-              {links.contacto.map((link) => (
+              {links.contact.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground transition-colors"
+                    className="transition-colors text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground"
                   >
                     {link.label}
                   </a>
@@ -100,13 +97,12 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-background/10 dark:border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-background/50 dark:text-muted-foreground/60 text-sm">
-            © {currentYear} BlueSpark MZ. Todos os direitos reservados.
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-background/10 pt-8 dark:border-border md:flex-row">
+          <p className="text-sm text-background/50 dark:text-muted-foreground/60">
+            © {currentYear} BlueSpark MZ. All rights reserved.
           </p>
-          <p className="text-background/50 dark:text-muted-foreground/60 text-sm flex items-center gap-1">
-            Feito com <Heart className="w-4 h-4 text-accent fill-accent" /> em Moçambique
+          <p className="flex items-center gap-1 text-sm text-background/50 dark:text-muted-foreground/60">
+            Built with <Heart className="h-4 w-4 fill-accent text-accent" /> in Mozambique
           </p>
         </div>
       </div>

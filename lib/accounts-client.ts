@@ -41,10 +41,7 @@ type RequestOptions = {
   headers?: HeadersInit;
 };
 
-const API_URL = (
-  process.env.NEXT_PUBLIC_ACCOUNTS_API_URL ||
-  "http://localhost:8000"
-).replace(/\/+$/, "");
+const API_URL = "https://accounts.bluesparkmz.com".replace(/\/+$/, "");
 
 export const authStorage = {
   accessTokenKey: "bluespark_access_token",

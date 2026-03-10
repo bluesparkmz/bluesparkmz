@@ -8,155 +8,171 @@ const skywalletPreview = "/skywallet-preview.png";
 const smartmozPreview = "/smartmoz-preview.png";
 const fastfoodPreview = "/fastfood-preview.png";
 const skypdvPreview = "/skypdv-preview.png";
+const contablizaPreview = "/favicon.png";
+const sparkflowPreview = "/favicon.png";
 
 const projects = [
   {
     title: "SkyVenda MZ",
-    category: "Rede Social",
-    description: "A primeira rede social moçambicana focada em vendas e interação em tempo real com amigos e lojas.",
+    category: "Social Commerce",
+    description:
+      "A primeira rede social moçambicana focada em vendas e interação em tempo real entre clientes e lojas.",
     image: skyvendaPreview,
     link: "https://skyvenda.com",
     featured: true,
-    tags: ["React", "Node.js", "Real-time"],
+    tags: ["React", "Commerce", "Realtime"],
   },
   {
     title: "SkyWallet",
     category: "Fintech",
-    description: "Carteira digital integrada à SkyVenda MZ para transações seguras e rápidas.",
+    description:
+      "Carteira digital integrada ao ecossistema BlueSpark para transações seguras e rápidas.",
     image: skywalletPreview,
     link: null,
     featured: false,
-    tags: ["Mobile", "Pagamentos", "Segurança"],
+    tags: ["Payments", "Wallet", "Security"],
   },
   {
     title: "SmartMoz",
-    category: "E-Learning",
-    description: "Plataforma de vendas de produtos digitais como e-books e cursos online.",
+    category: "Digital Learning",
+    description:
+      "Plataforma para venda e distribuição de cursos, e-books e outros produtos digitais.",
     image: smartmozPreview,
     link: null,
     featured: false,
-    tags: ["Educação", "E-commerce", "Streaming"],
+    tags: ["Learning", "Digital Products", "Streaming"],
   },
   {
-    title: "Fastfood",
-    category: "Delivery",
-    description: "Cardápio digital e sistema de localização de restaurantes próximos.",
+    title: "FastFood",
+    category: "Food Delivery",
+    description:
+      "Sistema para operações de restaurantes, menu digital, pedidos e entrega.",
     image: fastfoodPreview,
     link: null,
     featured: false,
-    tags: ["Geolocalização", "Restaurantes", "Delivery"],
+    tags: ["Restaurants", "Orders", "Delivery"],
   },
   {
     title: "SkyPDV",
-    category: "Gestão",
-    description: "Sistema PDV para gestão de vendas online e locais em restaurantes e supermercados.",
+    category: "Retail Operations",
+    description:
+      "Sistema PDV para gestão de vendas locais, caixa, inventário e operação comercial.",
     image: skypdvPreview,
     link: null,
     featured: false,
-    tags: ["POS", "Inventário", "Vendas"],
+    tags: ["POS", "Inventory", "Sales"],
+  },
+  {
+    title: "ContaBliza",
+    category: "Accounting",
+    description:
+      "Sistema moderno de contabilidade para empresas e negócios com foco em controlo financeiro, faturação e relatórios.",
+    image: contablizaPreview,
+    link: null,
+    featured: false,
+    tags: ["Accounting", "Finance", "Reports"],
+  },
+  {
+    title: "SparkFlow",
+    category: "Messaging Automation",
+    description:
+      "Gateway de automação de mensagens WhatsApp e SMS para campanhas, notificações e fluxos operacionais.",
+    image: sparkflowPreview,
+    link: null,
+    featured: false,
+    tags: ["WhatsApp", "SMS", "Automation"],
   },
 ];
 
 const PortfolioSection = () => {
-  const featuredProject = projects.find((p) => p.featured);
-  const otherProjects = projects.filter((p) => !p.featured);
+  const featuredProject = projects.find((project) => project.featured);
+  const otherProjects = projects.filter((project) => !project.featured);
 
   return (
-    <section id="portfolio" className="py-24 lg:py-32 bg-background">
+    <section id="portfolio" className="bg-background py-24 lg:py-32">
       <div className="container mx-auto px-4 lg:px-8">
-        {/* Header */}
-        <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-            Portfólio
+        <AnimatedSection className="mx-auto mb-16 max-w-3xl text-center">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
+            Portfolio
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
-            Nossos{" "}
-            <span className="text-gradient-indigo">Projetos</span>
+          <h2 className="mb-6 text-3xl font-display font-bold text-foreground md:text-4xl lg:text-5xl">
+            Our <span className="text-gradient-indigo">Products</span>
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Conheça os produtos que estamos a desenvolver para transformar o ecossistema digital moçambicano.
+          <p className="text-lg leading-relaxed text-muted-foreground">
+            Conheça os produtos que a BlueSpark MZ está a construir para comércio,
+            finanças, operações, contabilidade e automação de comunicação.
           </p>
         </AnimatedSection>
 
-        {/* Featured Project */}
-        {featuredProject && (
+        {featuredProject ? (
           <AnimatedSection animation="scale" className="mb-12">
             <Card variant="project" className="overflow-hidden">
               <div className="grid lg:grid-cols-2">
-                {/* Image */}
                 <div className="relative overflow-hidden">
                   <img
                     src={featuredProject.image}
                     alt={featuredProject.title}
-                    className="w-full h-64 lg:h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105 lg:h-full"
                   />
-                  <div className="absolute inset-0 bg-indigo-gradient opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-indigo-gradient opacity-0 transition-opacity duration-500 group-hover:opacity-10" />
                 </div>
 
-                {/* Content */}
-                <div className="p-8 lg:p-12 flex flex-col justify-center">
-                  <span className="inline-block px-3 py-1 bg-instagram-gradient text-primary-foreground text-xs font-semibold rounded-full w-fit mb-4">
-                    Destaque
+                <div className="flex flex-col justify-center p-8 lg:p-12">
+                  <span className="mb-4 inline-block w-fit rounded-full bg-instagram-gradient px-3 py-1 text-xs font-semibold text-primary-foreground">
+                    Featured
                   </span>
-                  <span className="text-sm text-muted-foreground mb-2">{featuredProject.category}</span>
-                  <h3 className="text-2xl lg:text-3xl font-display font-bold text-foreground mb-4">
+                  <span className="mb-2 text-sm text-muted-foreground">
+                    {featuredProject.category}
+                  </span>
+                  <h3 className="mb-4 text-2xl font-display font-bold text-foreground lg:text-3xl">
                     {featuredProject.title}
                   </h3>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                  <p className="mb-6 leading-relaxed text-muted-foreground">
                     {featuredProject.description}
                   </p>
-                  
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
+
+                  <div className="mb-6 flex flex-wrap gap-2">
                     {featuredProject.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-lg"
+                        className="rounded-lg bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  {featuredProject.link && (
-                    <Button variant="hero" className="w-fit group" asChild>
+                  {featuredProject.link ? (
+                    <Button variant="hero" className="group w-fit" asChild>
                       <a href={featuredProject.link} target="_blank" rel="noopener noreferrer">
-                        Visitar Projeto
-                        <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        Visit product
+                        <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </a>
                     </Button>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </Card>
           </AnimatedSection>
-        )}
+        ) : null}
 
-        {/* Other Projects Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {otherProjects.map((project, index) => (
-            <AnimatedSection
-              key={project.title}
-              animation="fade-up"
-              delay={index * 100}
-            >
+            <AnimatedSection key={project.title} animation="fade-up" delay={index * 100}>
               <Card variant="project" className="h-full">
-                {/* Image */}
-                <div className="relative overflow-hidden aspect-video">
+                <div className="relative aspect-video overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
-                  {/* Overlay Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform duration-300 group-hover:translate-y-0">
                     <div className="flex flex-wrap gap-1">
                       {project.tags.slice(0, 2).map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-0.5 bg-card/90 text-foreground text-xs font-medium rounded"
+                          className="rounded bg-card/90 px-2 py-0.5 text-xs font-medium text-foreground"
                         >
                           {tag}
                         </span>
@@ -165,13 +181,14 @@ const PortfolioSection = () => {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="p-5">
-                  <span className="text-xs text-primary font-medium">{project.category}</span>
-                  <h3 className="text-lg font-display font-semibold text-foreground mt-1 mb-2">
+                  <span className="text-xs font-medium text-primary">
+                    {project.category}
+                  </span>
+                  <h3 className="mb-2 mt-1 text-lg font-display font-semibold text-foreground">
                     {project.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
+                  <p className="line-clamp-3 text-sm text-muted-foreground">
                     {project.description}
                   </p>
                 </div>
