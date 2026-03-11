@@ -19,7 +19,14 @@ declare global {
             cancel_on_tap_outside?: boolean;
             use_fedcm_for_prompt?: boolean;
           }) => void;
-          prompt: () => void;
+          prompt: (listener?: (notification: {
+            isNotDisplayed?: () => boolean;
+            getNotDisplayedReason?: () => string;
+            isSkippedMoment?: () => boolean;
+            getSkippedReason?: () => string;
+            isDismissedMoment?: () => boolean;
+            getDismissedReason?: () => string;
+          }) => void) => void;
           cancel: () => void;
         };
       };

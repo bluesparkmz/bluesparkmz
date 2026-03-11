@@ -23,9 +23,6 @@ export default function AuthPageShell({
       <main className="container mx-auto flex min-h-[calc(100vh-88px)] max-w-6xl items-center px-4 py-12">
         <div className="grid w-full gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <section className="space-y-6">
-            <Link href="/" className="text-sm text-primary hover:underline">
-              Voltar ao site
-            </Link>
             <div className="space-y-4">
               <h1 className="text-4xl font-bold tracking-tight text-foreground">
                 {title}
