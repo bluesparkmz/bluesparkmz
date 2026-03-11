@@ -27,15 +27,13 @@ declare global {
   }
 }
 
-const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
-const GOOGLE_CLIENT_ID_FALLBACK =
-  "512274443306-8pqcpur84doh27ovnu588jv2hamdqeej.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID =
+  "530160641394-6d7tt7u2vp0sbvnpvp9mirc2nnagadd4.apps.googleusercontent.com";
 
 export default function GoogleOneTap() {
   const router = useRouter();
   const { setSessionTokens } = useAuth();
   const initializedRef = useRef(false);
-  const clientId = GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID_FALLBACK;
 
   useEffect(() => {
     return () => {
@@ -62,13 +60,13 @@ export default function GoogleOneTap() {
   }
 
   function initializeGoogleOneTap() {
-    if (!clientId || initializedRef.current || !window.google?.accounts.id) {
+    if (!GOOGLE_CLIENT_ID || initializedRef.current || !window.google?.accounts.id) {
       return;
     }
 
     initializedRef.current = true;
     window.google.accounts.id.initialize({
-      client_id: clientId,
+      client_id: GOOGLE_CLIENT_ID,
       callback: handleCredentialResponse,
       auto_select: false,
       cancel_on_tap_outside: false,
