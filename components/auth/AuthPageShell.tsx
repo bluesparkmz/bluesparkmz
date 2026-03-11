@@ -13,8 +13,11 @@ export default function AuthPageShell({
 }) {
   return (
     <div className="min-h-screen bg-background">
-      <header className="container mx-auto flex max-w-6xl items-center justify-between px-4 py-6">
-        <Link href="/" className="text-lg font-semibold text-foreground">
+      <header className="container mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-6">
+        <Link
+          href="/"
+          className="whitespace-nowrap bg-gradient-to-r from-indigo-600 to-violet-500 bg-clip-text text-base font-semibold text-transparent sm:text-lg"
+        >
           BlueSpark MZ
         </Link>
         <AuthHeaderControls />
@@ -22,12 +25,12 @@ export default function AuthPageShell({
 
       <main className="container mx-auto flex min-h-[calc(100vh-88px)] max-w-6xl items-center px-4 py-12">
         <div className="grid w-full gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="space-y-6">
+          <section className="space-y-6 text-center lg:text-left">
             <div className="space-y-4">
-              <h1 className="text-4xl font-bold tracking-tight text-foreground">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                 {title}
               </h1>
-              <p className="max-w-xl text-base text-muted-foreground">
+              <p className="mx-auto max-w-xl text-base text-muted-foreground lg:mx-0">
                 {description}
               </p>
             </div>

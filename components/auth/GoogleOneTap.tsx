@@ -19,14 +19,7 @@ declare global {
             cancel_on_tap_outside?: boolean;
             use_fedcm_for_prompt?: boolean;
           }) => void;
-          prompt: (listener?: (notification: {
-            isNotDisplayed?: () => boolean;
-            getNotDisplayedReason?: () => string;
-            isSkippedMoment?: () => boolean;
-            getSkippedReason?: () => string;
-            isDismissedMoment?: () => boolean;
-            getDismissedReason?: () => string;
-          }) => void) => void;
+          prompt: () => void;
           cancel: () => void;
         };
       };
@@ -81,26 +74,7 @@ export default function GoogleOneTap() {
       cancel_on_tap_outside: false,
       use_fedcm_for_prompt: true,
     });
-    window.google.accounts.id.prompt((notification: {
-      isNotDisplayed?: () => boolean;
-      getNotDisplayedReason?: () => string;
-      isSkippedMoment?: () => boolean;
-      getSkippedReason?: () => string;
-      isDismissedMoment?: () => boolean;
-      getDismissedReason?: () => string;
-    }) => {
-      try {
-        if (notification?.isNotDisplayed?.()) {
-          console.warn("Google One Tap nao exibido:", notification.getNotDisplayedReason?.());
-        }
-        if (notification?.isSkippedMoment?.()) {
-          console.warn("Google One Tap ignorado:", notification.getSkippedReason?.());
-        }
-        if (notification?.isDismissedMoment?.()) {
-          console.warn("Google One Tap fechado:", notification.getDismissedReason?.());
-        }
-      } catch {}
-    });
+    window.google.accounts.id.prompt();
   }
 
   return (
