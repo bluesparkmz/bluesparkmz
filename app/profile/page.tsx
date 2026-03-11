@@ -3,7 +3,6 @@
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import Navbar from "@/components/Navbar";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -103,7 +102,6 @@ export default function ProfilePage() {
   if (isLoading || !user) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
         <main className="container mx-auto px-4 py-28">
           <p className="text-muted-foreground">A carregar perfil...</p>
         </main>
@@ -113,7 +111,6 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <main className="container mx-auto space-y-6 px-4 py-28">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>

@@ -27,6 +27,7 @@ type AuthContextValue = {
   accessToken: string | null;
   refreshToken: string | null;
   isLoading: boolean;
+  setSessionTokens: (tokens: Pick<AuthTokens, "access_token" | "refresh_token">) => Promise<void>;
   login: (payload: { identifier: string; password: string }) => Promise<void>;
   register: (payload: {
     email: string;
@@ -148,6 +149,24 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     [applyTokens],
   );
 
+  const setSessionTokens = useCallback(
+    async (tokens: Pick<AuthTokens, "access_token" | "refresh_token">) => {
+      setIsLoading(true);
+      applyTokens(tokens);
+
+      try {
+        const currentUser = await getCurrentUser(tokens.access_token);
+        setUser(currentUser);
+      } catch {
+        logout();
+        throw new Error("Nao foi possivel validar a sessao Google");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [applyTokens, logout],
+  );
+
   const register = useCallback(
     async (payload: {
       email: string;
@@ -211,6 +230,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       accessToken,
       refreshToken,
       isLoading,
+      setSessionTokens,
       login,
       register,
       logout,
@@ -230,6 +250,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       removeProfileImage,
       saveProfile,
       saveProfileImage,
+      setSessionTokens,
       user,
     ],
   );

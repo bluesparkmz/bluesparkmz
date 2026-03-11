@@ -2,25 +2,47 @@
 
 import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { authStorage } from "@/lib/accounts-client";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 function GoogleSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { setSessionTokens } = useAuth();
 
   useEffect(() => {
-    const accessToken = searchParams.get("access_token");
-    const refreshToken = searchParams.get("refresh_token");
+    let cancelled = false;
 
-    if (!accessToken || !refreshToken) {
-      router.replace("/login");
-      return;
+    async function completeGoogleLogin() {
+      const accessToken = searchParams.get("access_token");
+      const refreshToken = searchParams.get("refresh_token");
+
+      if (!accessToken || !refreshToken) {
+        router.replace("/login");
+        return;
+      }
+
+      try {
+        await setSessionTokens({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
+
+        if (!cancelled) {
+          router.replace("/profile");
+        }
+      } catch {
+        if (!cancelled) {
+          router.replace("/login");
+        }
+      }
     }
 
-    localStorage.setItem(authStorage.accessTokenKey, accessToken);
-    localStorage.setItem(authStorage.refreshTokenKey, refreshToken);
-    router.replace("/profile");
-  }, [router, searchParams]);
+    completeGoogleLogin();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router, searchParams, setSessionTokens]);
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4">
