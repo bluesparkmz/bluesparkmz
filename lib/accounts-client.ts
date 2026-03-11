@@ -108,6 +108,33 @@ export async function refreshAccessToken(refreshToken: string) {
   });
 }
 
+export async function requestPasswordRecovery(identifier: string) {
+  return apiRequest<{ message: string }>("/auth/password/recover", {
+    method: "POST",
+    json: { identifier },
+  });
+}
+
+export async function verifyPasswordRecoveryOtp(payload: {
+  identifier: string;
+  otp: string;
+}) {
+  return apiRequest<{ message: string; reset_token: string }>("/auth/password/verify-otp", {
+    method: "POST",
+    json: payload,
+  });
+}
+
+export async function resetPassword(payload: {
+  reset_token: string;
+  new_password: string;
+}) {
+  return apiRequest<{ message: string }>("/auth/password/reset", {
+    method: "POST",
+    json: payload,
+  });
+}
+
 export async function getCurrentUser(token: string) {
   return apiRequest<AuthUser>("/auth/me", { token });
 }
