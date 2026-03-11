@@ -1,8 +1,10 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import AuthHeaderControls from "@/components/auth/AuthHeaderControls";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -102,6 +104,15 @@ export default function ProfilePage() {
   if (isLoading || !user) {
     return (
       <div className="min-h-screen bg-background">
+        <header className="container mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-6">
+          <Link
+            href="/"
+            className="whitespace-nowrap bg-gradient-to-r from-indigo-600 to-violet-500 bg-clip-text text-base font-semibold text-transparent sm:text-lg"
+          >
+            BlueSpark MZ
+          </Link>
+          <AuthHeaderControls />
+        </header>
         <main className="container mx-auto px-4 py-28">
           <p className="text-muted-foreground">A carregar perfil...</p>
         </main>
@@ -111,7 +122,17 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="container mx-auto space-y-6 px-4 py-28">
+      <header className="container mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-6">
+        <Link
+          href="/"
+          className="whitespace-nowrap bg-gradient-to-r from-indigo-600 to-violet-500 bg-clip-text text-base font-semibold text-transparent sm:text-lg"
+        >
+          BlueSpark MZ
+        </Link>
+        <AuthHeaderControls />
+      </header>
+
+      <main className="container mx-auto space-y-6 px-4 py-12">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Perfil</h1>
