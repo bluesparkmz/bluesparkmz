@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import AuthPageShell from "@/components/auth/AuthPageShell";
 import { useAuth } from "@/components/auth/AuthProvider";
+import GoogleOneTap from "@/components/auth/GoogleOneTap";
 import { buildGoogleStartUrl } from "@/lib/accounts-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,6 +62,7 @@ export default function RegisterPage() {
       title="Criar conta BlueSpark"
       description="A mesma conta pode ser usada no SkyVenda, FastFood, SmartMoz e SkyPDV."
     >
+      <GoogleOneTap />
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>

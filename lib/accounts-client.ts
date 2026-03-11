@@ -108,6 +108,13 @@ export async function refreshAccessToken(refreshToken: string) {
   });
 }
 
+export async function loginWithGoogleOneTap(credential: string) {
+  return apiRequest<AuthTokens>("/auth/google/one-tap", {
+    method: "POST",
+    json: { credential },
+  });
+}
+
 export async function requestPasswordRecovery(identifier: string) {
   return apiRequest<{ message: string }>("/auth/password/recover", {
     method: "POST",

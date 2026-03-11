@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import AuthPageShell from "@/components/auth/AuthPageShell";
 import { useAuth } from "@/components/auth/AuthProvider";
+import GoogleOneTap from "@/components/auth/GoogleOneTap";
 import { buildGoogleStartUrl } from "@/lib/accounts-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,6 +45,7 @@ export default function LoginPage() {
       title="Entrar na sua conta"
       description="Use a conta central da BlueSpark MZ para aceder aos seus produtos."
     >
+      <GoogleOneTap />
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="identifier">Email, username ou telefone</Label>
