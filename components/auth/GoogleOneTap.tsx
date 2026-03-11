@@ -28,11 +28,14 @@ declare global {
 }
 
 const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
+const GOOGLE_CLIENT_ID_FALLBACK =
+  "512274443306-8pqcpur84doh27ovnu588jv2hamdqeej.apps.googleusercontent.com";
 
 export default function GoogleOneTap() {
   const router = useRouter();
   const { setSessionTokens } = useAuth();
   const initializedRef = useRef(false);
+  const clientId = GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID_FALLBACK;
 
   useEffect(() => {
     return () => {
@@ -59,23 +62,38 @@ export default function GoogleOneTap() {
   }
 
   function initializeGoogleOneTap() {
-    if (!GOOGLE_CLIENT_ID || initializedRef.current || !window.google?.accounts.id) {
+    if (!clientId || initializedRef.current || !window.google?.accounts.id) {
       return;
     }
 
     initializedRef.current = true;
     window.google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
+      client_id: clientId,
       callback: handleCredentialResponse,
       auto_select: false,
       cancel_on_tap_outside: false,
       use_fedcm_for_prompt: true,
     });
-    window.google.accounts.id.prompt();
-  }
-
-  if (!GOOGLE_CLIENT_ID) {
-    return null;
+    window.google.accounts.id.prompt((notification: {
+      isNotDisplayed?: () => boolean;
+      getNotDisplayedReason?: () => string;
+      isSkippedMoment?: () => boolean;
+      getSkippedReason?: () => string;
+      isDismissedMoment?: () => boolean;
+      getDismissedReason?: () => string;
+    }) => {
+      try {
+        if (notification?.isNotDisplayed?.()) {
+          console.warn("Google One Tap nao exibido:", notification.getNotDisplayedReason?.());
+        }
+        if (notification?.isSkippedMoment?.()) {
+          console.warn("Google One Tap ignorado:", notification.getSkippedReason?.());
+        }
+        if (notification?.isDismissedMoment?.()) {
+          console.warn("Google One Tap fechado:", notification.getDismissedReason?.());
+        }
+      } catch {}
+    });
   }
 
   return (
