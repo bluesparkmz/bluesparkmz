@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import AuthPageShell from "@/components/auth/AuthPageShell";
 import { useAuth } from "@/components/auth/AuthProvider";
 import GoogleOneTap from "@/components/auth/GoogleOneTap";
-import { buildGoogleStartUrl } from "@/lib/accounts-client";
+import { buildGoogleStartUrl, buildXStartUrl } from "@/lib/accounts-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -95,6 +95,21 @@ export default function LoginPage() {
             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
           </svg>
           Entrar com Google
+        </Button>
+
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          onClick={() => {
+            const nextUrl = `${window.location.origin}/auth/x/success`;
+            window.location.href = buildXStartUrl(nextUrl);
+          }}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
+            <path d="M18.9 2H22l-6.78 7.75L23.2 22h-6.25l-4.9-7.42L5.56 22H2.45l7.25-8.29L1.8 2h6.4l4.43 6.86zM17.8 19.9h1.72L7.26 3.98H5.4z" />
+          </svg>
+          Continuar com X
         </Button>
 
         <p className="text-sm text-muted-foreground">
