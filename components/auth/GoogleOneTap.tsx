@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { buildConsumerRedirectUrl, loginWithGoogleOneTap } from "@/lib/accounts-client";
@@ -33,11 +33,18 @@ const GOOGLE_CLIENT_ID =
 
 export default function GoogleOneTap() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { setSessionTokens } = useAuth();
   const initializedRef = useRef(false);
-  const redirectUri = (searchParams.get("redirect_uri") || "").trim() || null;
-  const productCode = (searchParams.get("product_code") || "").trim() || null;
+  const [redirectUri, setRedirectUri] = useState<string | null>(null);
+  const [productCode, setProductCode] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const nextRedirectUri = (params.get("redirect_uri") || "").trim() || null;
+    const nextProductCode = (params.get("product_code") || "").trim() || null;
+    setRedirectUri(nextRedirectUri);
+    setProductCode(nextProductCode);
+  }, []);
 
   useEffect(() => {
     return () => {

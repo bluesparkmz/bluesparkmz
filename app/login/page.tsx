@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import AuthPageShell from "@/components/auth/AuthPageShell";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -20,14 +20,21 @@ import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { login, user, isLoading, refreshToken } = useAuth();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isHandingOff, setIsHandingOff] = useState(false);
-  const redirectUri = (searchParams.get("redirect_uri") || "").trim() || null;
-  const productCode = (searchParams.get("product_code") || "").trim() || null;
+  const [redirectUri, setRedirectUri] = useState<string | null>(null);
+  const [productCode, setProductCode] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const nextRedirectUri = (params.get("redirect_uri") || "").trim() || null;
+    const nextProductCode = (params.get("product_code") || "").trim() || null;
+    setRedirectUri(nextRedirectUri);
+    setProductCode(nextProductCode);
+  }, []);
   const registerHref = (() => {
     const params = new URLSearchParams();
     if (redirectUri) {
