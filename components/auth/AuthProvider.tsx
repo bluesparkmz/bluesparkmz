@@ -22,20 +22,27 @@ import {
   uploadProfileImage,
 } from "@/lib/accounts-client";
 
+type ProductScopedRequest = {
+  productCode?: string | null;
+};
+
 type AuthContextValue = {
   user: AuthUser | null;
   accessToken: string | null;
   refreshToken: string | null;
   isLoading: boolean;
   setSessionTokens: (tokens: Pick<AuthTokens, "access_token" | "refresh_token">) => Promise<void>;
-  login: (payload: { identifier: string; password: string }) => Promise<void>;
+  login: (
+    payload: { identifier: string; password: string },
+    options?: ProductScopedRequest,
+  ) => Promise<AuthTokens>;
   register: (payload: {
     email: string;
     username: string;
     full_name?: string;
     phone?: string;
     password: string;
-  }) => Promise<void>;
+  }, options?: ProductScopedRequest) => Promise<AuthTokens>;
   logout: () => void;
   refreshUser: () => Promise<AuthUser | null>;
   saveProfile: (payload: { full_name?: string; phone?: string }) => Promise<AuthUser>;
@@ -141,10 +148,14 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, [accessToken, refreshUser]);
 
   const login = useCallback(
-    async (payload: { identifier: string; password: string }) => {
-      const tokens = await loginAccount(payload);
+    async (
+      payload: { identifier: string; password: string },
+      options: ProductScopedRequest = {},
+    ) => {
+      const tokens = await loginAccount(payload, options);
       applyTokens(tokens);
       setUser(tokens.user || null);
+      return tokens;
     },
     [applyTokens],
   );
@@ -168,16 +179,20 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const register = useCallback(
-    async (payload: {
-      email: string;
-      username: string;
-      full_name?: string;
-      phone?: string;
-      password: string;
-    }) => {
-      const tokens = await registerAccount(payload);
+    async (
+      payload: {
+        email: string;
+        username: string;
+        full_name?: string;
+        phone?: string;
+        password: string;
+      },
+      options: ProductScopedRequest = {},
+    ) => {
+      const tokens = await registerAccount(payload, options);
       applyTokens(tokens);
       setUser(tokens.user || null);
+      return tokens;
     },
     [applyTokens],
   );

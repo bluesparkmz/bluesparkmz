@@ -3,6 +3,7 @@
 import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { buildConsumerRedirectUrl } from "@/lib/accounts-client";
 
 function XSuccessContent() {
   const router = useRouter();
@@ -15,6 +16,8 @@ function XSuccessContent() {
     async function completeXLogin() {
       const accessToken = searchParams.get("access_token");
       const refreshToken = searchParams.get("refresh_token");
+      const redirectUri = searchParams.get("redirect_uri");
+      const expiresIn = Number(searchParams.get("expires_in") || "0");
 
       if (!accessToken || !refreshToken) {
         router.replace("/login");
@@ -28,6 +31,14 @@ function XSuccessContent() {
         });
 
         if (!cancelled) {
+          if (redirectUri) {
+            window.location.href = buildConsumerRedirectUrl(redirectUri, {
+              access_token: accessToken,
+              refresh_token: refreshToken,
+              expires_in: expiresIn || 0,
+            });
+            return;
+          }
           router.replace("/profile");
         }
       } catch {

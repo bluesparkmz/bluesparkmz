@@ -33,6 +33,10 @@ export type AuthTokens = {
   user?: AuthUser;
 };
 
+type ProductScopedRequest = {
+  productCode?: string | null;
+};
+
 type RequestOptions = {
   method?: string;
   token?: string | null;
@@ -87,31 +91,52 @@ export async function registerAccount(payload: {
   full_name?: string;
   phone?: string;
   password: string;
-}) {
+}, options: ProductScopedRequest = {}) {
   return apiRequest<AuthTokens>("/auth/register", {
     method: "POST",
-    json: payload,
+    json: {
+      ...payload,
+      product_code: options.productCode || undefined,
+    },
   });
 }
 
-export async function loginAccount(payload: { identifier: string; password: string }) {
+export async function loginAccount(
+  payload: { identifier: string; password: string },
+  options: ProductScopedRequest = {},
+) {
   return apiRequest<AuthTokens>("/auth/login", {
     method: "POST",
-    json: payload,
+    json: {
+      ...payload,
+      product_code: options.productCode || undefined,
+    },
   });
 }
 
-export async function refreshAccessToken(refreshToken: string) {
+export async function refreshAccessToken(
+  refreshToken: string,
+  options: ProductScopedRequest = {},
+) {
   return apiRequest<AuthTokens>("/auth/refresh", {
     method: "POST",
-    json: { refresh_token: refreshToken },
+    json: {
+      refresh_token: refreshToken,
+      product_code: options.productCode || undefined,
+    },
   });
 }
 
-export async function loginWithGoogleOneTap(credential: string) {
+export async function loginWithGoogleOneTap(
+  credential: string,
+  options: ProductScopedRequest = {},
+) {
   return apiRequest<AuthTokens>("/auth/google/one-tap", {
     method: "POST",
-    json: { credential },
+    json: {
+      credential,
+      product_code: options.productCode || undefined,
+    },
   });
 }
 
@@ -181,10 +206,61 @@ export async function deleteProfileImage(token: string) {
   );
 }
 
-export function buildGoogleStartUrl(nextUrl: string) {
-  return `${API_URL}/auth/google/start?next=${encodeURIComponent(nextUrl)}`;
+export function buildGoogleStartUrl(nextUrl: string, productCode?: string | null) {
+  const params = new URLSearchParams({
+    next: nextUrl,
+  });
+
+  if (productCode) {
+    params.set("product_code", productCode);
+  }
+
+  return `${API_URL}/auth/google/start?${params.toString()}`;
 }
 
-export function buildXStartUrl(nextUrl: string) {
-  return `${API_URL}/auth/x/start?next=${encodeURIComponent(nextUrl)}`;
+export function buildXStartUrl(nextUrl: string, productCode?: string | null) {
+  const params = new URLSearchParams({
+    next: nextUrl,
+  });
+
+  if (productCode) {
+    params.set("product_code", productCode);
+  }
+
+  return `${API_URL}/auth/x/start?${params.toString()}`;
+}
+
+export function buildAuthSuccessUrl(
+  path: "/auth/google/success" | "/auth/x/success",
+  options: {
+    redirectUri?: string | null;
+    productCode?: string | null;
+  } = {},
+) {
+  if (typeof window === "undefined") {
+    return path;
+  }
+
+  const url = new URL(path, window.location.origin);
+
+  if (options.redirectUri) {
+    url.searchParams.set("redirect_uri", options.redirectUri);
+  }
+
+  if (options.productCode) {
+    url.searchParams.set("product_code", options.productCode);
+  }
+
+  return url.toString();
+}
+
+export function buildConsumerRedirectUrl(
+  redirectUri: string,
+  tokens: Pick<AuthTokens, "access_token" | "refresh_token" | "expires_in">,
+) {
+  const url = new URL(redirectUri);
+  url.searchParams.set("access_token", tokens.access_token);
+  url.searchParams.set("refresh_token", tokens.refresh_token);
+  url.searchParams.set("expires_in", String(tokens.expires_in));
+  return url.toString();
 }

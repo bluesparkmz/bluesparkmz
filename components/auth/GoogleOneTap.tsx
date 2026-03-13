@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import Script from "next/script";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { loginWithGoogleOneTap } from "@/lib/accounts-client";
+import { buildConsumerRedirectUrl, loginWithGoogleOneTap } from "@/lib/accounts-client";
 
 declare global {
   interface Window {
@@ -28,12 +28,16 @@ declare global {
 }
 
 const GOOGLE_CLIENT_ID =
+  process.env.NEXT_PUBLIC_BLUESPARK_GOOGLE_CLIENT_ID ||
   "530160641394-6d7tt7u2vp0sbvnpvp9mirc2nnagadd4.apps.googleusercontent.com";
 
 export default function GoogleOneTap() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { setSessionTokens } = useAuth();
   const initializedRef = useRef(false);
+  const redirectUri = (searchParams.get("redirect_uri") || "").trim() || null;
+  const productCode = (searchParams.get("product_code") || "").trim() || null;
 
   useEffect(() => {
     return () => {
@@ -47,12 +51,19 @@ export default function GoogleOneTap() {
     }
 
     try {
-      const tokens = await loginWithGoogleOneTap(response.credential);
+      const tokens = await loginWithGoogleOneTap(response.credential, { productCode });
       await setSessionTokens({
         access_token: tokens.access_token,
         refresh_token: tokens.refresh_token,
       });
+
       toast.success("Sessao iniciada com Google");
+
+      if (redirectUri) {
+        window.location.href = buildConsumerRedirectUrl(redirectUri, tokens);
+        return;
+      }
+
       router.replace("/profile");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Falha no Google One Tap");

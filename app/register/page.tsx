@@ -2,18 +2,25 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import AuthPageShell from "@/components/auth/AuthPageShell";
 import { useAuth } from "@/components/auth/AuthProvider";
 import GoogleOneTap from "@/components/auth/GoogleOneTap";
-import { buildGoogleStartUrl, buildXStartUrl } from "@/lib/accounts-client";
+import {
+  buildAuthSuccessUrl,
+  buildConsumerRedirectUrl,
+  buildGoogleStartUrl,
+  buildXStartUrl,
+  refreshAccessToken,
+} from "@/lib/accounts-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { register, user, isLoading } = useAuth();
   const [step, setStep] = useState<"email" | "details">("email");
   const [form, setForm] = useState({
@@ -25,12 +32,58 @@ export default function RegisterPage() {
     confirmPassword: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isHandingOff, setIsHandingOff] = useState(false);
+  const redirectUri = (searchParams.get("redirect_uri") || "").trim() || null;
+  const productCode = (searchParams.get("product_code") || "").trim() || null;
+  const loginHref = (() => {
+    const params = new URLSearchParams();
+    if (redirectUri) {
+      params.set("redirect_uri", redirectUri);
+    }
+    if (productCode) {
+      params.set("product_code", productCode);
+    }
+    const query = params.toString();
+    return query ? `/login?${query}` : "/login";
+  })();
 
   useEffect(() => {
-    if (!isLoading && user) {
-      router.replace("/profile");
+    let cancelled = false;
+
+    async function handoffExistingSession() {
+      if (isLoading || !user) {
+        return;
+      }
+
+      if (!redirectUri) {
+        router.replace("/profile");
+        return;
+      }
+
+      const storedRefreshToken = localStorage.getItem("bluespark_refresh_token");
+      if (!storedRefreshToken) {
+        return;
+      }
+
+      setIsHandingOff(true);
+      try {
+        const tokens = await refreshAccessToken(storedRefreshToken, { productCode });
+        if (!cancelled) {
+          window.location.href = buildConsumerRedirectUrl(redirectUri, tokens);
+        }
+      } catch {
+        if (!cancelled) {
+          setIsHandingOff(false);
+        }
+      }
     }
-  }, [isLoading, router, user]);
+
+    handoffExistingSession();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isLoading, productCode, redirectUri, router, user]);
 
   function handleContinueWithEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -43,31 +96,61 @@ export default function RegisterPage() {
     setStep("details");
   }
 
+  function redirectAfterAuth(tokens: {
+    access_token: string;
+    refresh_token: string;
+    expires_in: number;
+  }) {
+    if (redirectUri) {
+      window.location.href = buildConsumerRedirectUrl(redirectUri, tokens);
+      return;
+    }
+
+    router.push("/profile");
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      toast.error("As senhas não coincidem");
+      toast.error("As senhas nao coincidem");
       return;
     }
 
     setIsSubmitting(true);
     try {
-      await register({
-        email: form.email,
-        username: form.username,
-        full_name: form.full_name || undefined,
-        phone: form.phone || undefined,
-        password: form.password,
-      });
+      const tokens = await register(
+        {
+          email: form.email,
+          username: form.username,
+          full_name: form.full_name || undefined,
+          phone: form.phone || undefined,
+          password: form.password,
+        },
+        { productCode },
+      );
       toast.success("Conta criada com sucesso");
-      router.push("/profile");
+      redirectAfterAuth(tokens);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Falha ao criar conta");
     } finally {
       setIsSubmitting(false);
     }
   }
+
+  const googleNextUrl =
+    redirectUri ||
+    buildAuthSuccessUrl("/auth/google/success", {
+      redirectUri,
+      productCode,
+    });
+
+  const xNextUrl =
+    redirectUri ||
+    buildAuthSuccessUrl("/auth/x/success", {
+      redirectUri,
+      productCode,
+    });
 
   return (
     <AuthPageShell
@@ -89,7 +172,7 @@ export default function RegisterPage() {
             />
           </div>
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isHandingOff}>
             Continuar com email
           </Button>
 
@@ -98,8 +181,7 @@ export default function RegisterPage() {
             variant="outline"
             className="w-full"
             onClick={() => {
-              const nextUrl = `${window.location.origin}/auth/google/success`;
-              window.location.href = buildGoogleStartUrl(nextUrl);
+              window.location.href = buildGoogleStartUrl(googleNextUrl, productCode);
             }}
           >
             <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -116,8 +198,7 @@ export default function RegisterPage() {
             variant="outline"
             className="w-full"
             onClick={() => {
-              const nextUrl = `${window.location.origin}/auth/x/success`;
-              window.location.href = buildXStartUrl(nextUrl);
+              window.location.href = buildXStartUrl(xNextUrl, productCode);
             }}
           >
             <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
@@ -127,8 +208,8 @@ export default function RegisterPage() {
           </Button>
 
           <p className="text-sm text-muted-foreground">
-            Já tem conta?{" "}
-            <Link href="/login" className="text-primary hover:underline">
+            Ja tem conta?{" "}
+            <Link href={loginHref} className="text-primary hover:underline">
               Entrar
             </Link>
           </p>
@@ -199,12 +280,18 @@ export default function RegisterPage() {
             />
           </div>
 
+          {redirectUri ? (
+            <p className="text-xs text-muted-foreground">
+              Depois de criar a conta, a sessao sera devolvida para a aplicacao consumidora.
+            </p>
+          ) : null}
+
           <div className="flex gap-3">
             <Button type="button" variant="outline" className="flex-1" onClick={() => setStep("email")}>
               Voltar
             </Button>
-            <Button type="submit" className="flex-1" disabled={isSubmitting}>
-              {isSubmitting ? "A criar..." : "Criar conta"}
+            <Button type="submit" className="flex-1" disabled={isSubmitting || isHandingOff}>
+              {isSubmitting || isHandingOff ? "A criar..." : "Criar conta"}
             </Button>
           </div>
         </form>

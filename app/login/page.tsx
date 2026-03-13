@@ -2,43 +2,133 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import AuthPageShell from "@/components/auth/AuthPageShell";
 import { useAuth } from "@/components/auth/AuthProvider";
 import GoogleOneTap from "@/components/auth/GoogleOneTap";
-import { buildGoogleStartUrl, buildXStartUrl } from "@/lib/accounts-client";
+import {
+  buildAuthSuccessUrl,
+  buildConsumerRedirectUrl,
+  buildGoogleStartUrl,
+  buildXStartUrl,
+  refreshAccessToken,
+} from "@/lib/accounts-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, user, isLoading } = useAuth();
+  const searchParams = useSearchParams();
+  const { login, user, isLoading, refreshToken } = useAuth();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isHandingOff, setIsHandingOff] = useState(false);
+  const redirectUri = (searchParams.get("redirect_uri") || "").trim() || null;
+  const productCode = (searchParams.get("product_code") || "").trim() || null;
+  const registerHref = (() => {
+    const params = new URLSearchParams();
+    if (redirectUri) {
+      params.set("redirect_uri", redirectUri);
+    }
+    if (productCode) {
+      params.set("product_code", productCode);
+    }
+    const query = params.toString();
+    return query ? `/register?${query}` : "/register";
+  })();
+  const forgotPasswordHref = (() => {
+    const params = new URLSearchParams();
+    if (redirectUri) {
+      params.set("redirect_uri", redirectUri);
+    }
+    if (productCode) {
+      params.set("product_code", productCode);
+    }
+    const query = params.toString();
+    return query ? `/forgot-password?${query}` : "/forgot-password";
+  })();
+
+  function redirectAfterAuth(tokens: {
+    access_token: string;
+    refresh_token: string;
+    expires_in: number;
+  }) {
+    if (redirectUri) {
+      window.location.href = buildConsumerRedirectUrl(redirectUri, tokens);
+      return;
+    }
+
+    router.push("/profile");
+  }
 
   useEffect(() => {
-    if (!isLoading && user) {
-      router.replace("/profile");
+    let cancelled = false;
+
+    async function handoffExistingSession() {
+      if (isLoading || !user) {
+        return;
+      }
+
+      if (!redirectUri) {
+        router.replace("/profile");
+        return;
+      }
+
+      if (!refreshToken) {
+        return;
+      }
+
+      setIsHandingOff(true);
+      try {
+        const tokens = await refreshAccessToken(refreshToken, { productCode });
+        if (!cancelled) {
+          window.location.href = buildConsumerRedirectUrl(redirectUri, tokens);
+        }
+      } catch {
+        if (!cancelled) {
+          setIsHandingOff(false);
+        }
+      }
     }
-  }, [isLoading, router, user]);
+
+    handoffExistingSession();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isLoading, productCode, redirectUri, refreshToken, router, user]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
 
     try {
-      await login({ identifier, password });
-      toast.success("Sessão iniciada");
-      router.push("/profile");
+      const tokens = await login({ identifier, password }, { productCode });
+      toast.success("Sessao iniciada");
+      redirectAfterAuth(tokens);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Falha no login");
     } finally {
       setIsSubmitting(false);
     }
   }
+
+  const googleNextUrl =
+    redirectUri ||
+    buildAuthSuccessUrl("/auth/google/success", {
+      redirectUri,
+      productCode,
+    });
+
+  const xNextUrl =
+    redirectUri ||
+    buildAuthSuccessUrl("/auth/x/success", {
+      redirectUri,
+      productCode,
+    });
 
   return (
     <AuthPageShell
@@ -69,14 +159,14 @@ export default function LoginPage() {
             required
           />
           <div className="text-right">
-            <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+            <Link href={forgotPasswordHref} className="text-sm text-primary hover:underline">
               Esqueci a senha
             </Link>
           </div>
         </div>
 
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "A entrar..." : "Entrar"}
+        <Button type="submit" className="w-full" disabled={isSubmitting || isHandingOff}>
+          {isSubmitting || isHandingOff ? "A entrar..." : "Entrar"}
         </Button>
 
         <Button
@@ -84,8 +174,7 @@ export default function LoginPage() {
           variant="outline"
           className="w-full"
           onClick={() => {
-            const nextUrl = `${window.location.origin}/auth/google/success`;
-            window.location.href = buildGoogleStartUrl(nextUrl);
+            window.location.href = buildGoogleStartUrl(googleNextUrl, productCode);
           }}
         >
           <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -102,8 +191,7 @@ export default function LoginPage() {
           variant="outline"
           className="w-full"
           onClick={() => {
-            const nextUrl = `${window.location.origin}/auth/x/success`;
-            window.location.href = buildXStartUrl(nextUrl);
+            window.location.href = buildXStartUrl(xNextUrl, productCode);
           }}
         >
           <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
@@ -112,9 +200,15 @@ export default function LoginPage() {
           Continuar com X
         </Button>
 
+        {redirectUri ? (
+          <p className="text-xs text-muted-foreground">
+            Sessao sera devolvida para a aplicacao consumidora apos autenticar.
+          </p>
+        ) : null}
+
         <p className="text-sm text-muted-foreground">
-          Ainda não tem conta?{" "}
-          <Link href="/register" className="text-primary hover:underline">
+          Ainda nao tem conta?{" "}
+          <Link href={registerHref} className="text-primary hover:underline">
             Criar conta
           </Link>
         </p>
@@ -122,4 +216,3 @@ export default function LoginPage() {
     </AuthPageShell>
   );
 }
- 
