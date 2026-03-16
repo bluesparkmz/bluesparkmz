@@ -58,7 +58,13 @@ export default function GoogleOneTap() {
     }
 
     try {
-      const tokens = await loginWithGoogleOneTap(response.credential, { productCode });
+      const params = new URLSearchParams(window.location.search);
+      const nextRedirectUri = (params.get("redirect_uri") || "").trim() || null;
+      const nextProductCode = (params.get("product_code") || "").trim() || null;
+
+      const tokens = await loginWithGoogleOneTap(response.credential, {
+        productCode: nextProductCode || productCode,
+      });
       await setSessionTokens({
         access_token: tokens.access_token,
         refresh_token: tokens.refresh_token,
@@ -66,8 +72,18 @@ export default function GoogleOneTap() {
 
       toast.success("Sessao iniciada com Google");
 
-      if (redirectUri) {
-        window.location.href = buildConsumerRedirectUrl(redirectUri, tokens);
+      if (nextRedirectUri || redirectUri) {
+        window.location.href = buildConsumerRedirectUrl(
+          nextRedirectUri || redirectUri!,
+          tokens,
+        );
+        return;
+      }
+
+      if (nextProductCode || productCode) {
+        const params = new URLSearchParams();
+        params.set("product_code", nextProductCode || productCode!);
+        window.location.href = `/login?${params.toString()}`;
         return;
       }
 
