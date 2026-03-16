@@ -27,13 +27,16 @@ export default function LoginPage() {
   const [isHandingOff, setIsHandingOff] = useState(false);
   const [redirectUri, setRedirectUri] = useState<string | null>(null);
   const [productCode, setProductCode] = useState<string | null>(null);
+  const [provider, setProvider] = useState<string | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const nextRedirectUri = (params.get("redirect_uri") || "").trim() || null;
     const nextProductCode = (params.get("product_code") || "").trim() || null;
+    const nextProvider = (params.get("provider") || "").trim() || null;
     setRedirectUri(nextRedirectUri);
     setProductCode(nextProductCode);
+    setProvider(nextProvider);
   }, []);
   const registerHref = (() => {
     const params = new URLSearchParams();
@@ -123,19 +126,15 @@ export default function LoginPage() {
     }
   }
 
-  const googleNextUrl =
-    redirectUri ||
-    buildAuthSuccessUrl("/auth/google/success", {
-      redirectUri,
-      productCode,
-    });
+  const googleNextUrl = buildAuthSuccessUrl("/auth/google/success", {
+    redirectUri,
+    productCode,
+  });
 
-  const xNextUrl =
-    redirectUri ||
-    buildAuthSuccessUrl("/auth/x/success", {
-      redirectUri,
-      productCode,
-    });
+  const xNextUrl = buildAuthSuccessUrl("/auth/x/success", {
+    redirectUri,
+    productCode,
+  });
 
   return (
     <AuthPageShell

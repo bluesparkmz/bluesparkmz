@@ -145,19 +145,15 @@ export default function RegisterPage() {
     }
   }
 
-  const googleNextUrl =
-    redirectUri ||
-    buildAuthSuccessUrl("/auth/google/success", {
-      redirectUri,
-      productCode,
-    });
+  const googleNextUrl = buildAuthSuccessUrl("/auth/google/success", {
+    redirectUri,
+    productCode,
+  });
 
-  const xNextUrl =
-    redirectUri ||
-    buildAuthSuccessUrl("/auth/x/success", {
-      redirectUri,
-      productCode,
-    });
+  const xNextUrl = buildAuthSuccessUrl("/auth/x/success", {
+    redirectUri,
+    productCode,
+  });
 
   return (
     <AuthPageShell
