@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Camera, ChevronRight, LogOut, Mail, Phone, ShieldCheck, WalletCards } from "lucide-react";
+import { Camera, ChevronRight, LogOut, Mail, Phone, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import AuthHeaderControls from "@/components/auth/AuthHeaderControls";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -23,6 +23,11 @@ function getInitials(name?: string | null, username?: string) {
     .slice(0, 2)
     .toUpperCase();
 }
+
+const PRODUCT_LOGOS: Record<string, string> = {
+  skyvenda: "https://skyvenda.com/logo.png",
+  skywallet: "https://skywallet.bluesparkmz.com/logo.png",
+};
 
 function InfoRow({
   icon,
@@ -274,12 +279,16 @@ export default function ProfilePage() {
                     key={`${membership.product.code}-${membership.role}`}
                     className="flex items-center gap-4 rounded-[24px] bg-secondary/60 px-4 py-4"
                   >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                      <WalletCards className="h-5 w-5" />
+                    <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white ring-1 ring-black/5 dark:bg-card">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={PRODUCT_LOGOS[membership.product.code] || "/favicon.png"}
+                        alt={membership.product.name}
+                        className="h-8 w-8 object-contain"
+                      />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-semibold text-foreground">{membership.product.name}</p>
-                      <p className="text-sm text-muted-foreground">{membership.role}</p>
                     </div>
                     <ChevronRight className="h-5 w-5 text-muted-foreground/60" />
                   </div>
