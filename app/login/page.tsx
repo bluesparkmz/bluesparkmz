@@ -146,7 +146,7 @@ export default function LoginPage() {
         <div className="flex min-h-[220px] flex-col items-center justify-center gap-4 text-center">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
           <p className="text-sm text-muted-foreground">
-            {user ? "Nao vamos mostrar o formulario porque a sua conta ja esta autenticada." : "Estamos a verificar se ja existe uma sessao valida."}
+            {user ? "A redirecionar..." : "A validar sessao..."}
           </p>
         </div>
       </AuthPageShell>
