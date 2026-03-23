@@ -151,10 +151,7 @@ export default function ProfilePage() {
         <Card className="overflow-hidden rounded-[32px] border-none bg-gradient-to-br from-white via-white to-indigo-50 shadow-sm">
           <CardContent className="p-5 sm:p-6">
             <div className="mb-5">
-              <p className="text-[11px] font-black uppercase tracking-[0.28em] text-indigo-500">
-                BlueSpark MZ Perfil
-              </p>
-              <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
+              <h2 className="text-3xl font-black tracking-tight text-slate-950">
                 Perfil
               </h2>
               <p className="mt-1 text-sm font-semibold text-slate-500">
