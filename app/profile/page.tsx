@@ -55,7 +55,6 @@ export default function ProfilePage() {
     logout,
     saveProfile,
     saveProfileImage,
-    removeProfileImage,
   } = useAuth();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -114,18 +113,6 @@ export default function ProfilePage() {
     }
   }
 
-  async function handleDeleteImage() {
-    setIsUploadingImage(true);
-    try {
-      await removeProfileImage();
-      toast.success("Foto removida");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Falha ao remover imagem");
-    } finally {
-      setIsUploadingImage(false);
-    }
-  }
-
   if (isLoading || !user) {
     return (
       <div className="min-h-screen bg-[#eef3fb]">
@@ -163,6 +150,18 @@ export default function ProfilePage() {
       <main className="mx-auto w-full max-w-3xl space-y-5 px-4 pb-10 pt-2">
         <Card className="overflow-hidden rounded-[32px] border-none bg-gradient-to-br from-white via-white to-indigo-50 shadow-sm">
           <CardContent className="p-5 sm:p-6">
+            <div className="mb-5">
+              <p className="text-[11px] font-black uppercase tracking-[0.28em] text-indigo-500">
+                BlueSpark MZ Perfil
+              </p>
+              <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
+                Perfil
+              </h2>
+              <p className="mt-1 text-sm font-semibold text-slate-500">
+                Conta central BlueSpark MZ
+              </p>
+            </div>
+
             <div className="flex items-start justify-between gap-4">
               <div className="flex min-w-0 items-center gap-4">
                 <div className="relative">
@@ -214,15 +213,6 @@ export default function ProfilePage() {
             </div>
 
             <div className="mt-5 flex flex-wrap gap-3">
-              <Button
-                type="button"
-                size="sm"
-                className="rounded-full px-5"
-                disabled={isUploadingImage}
-                onClick={() => document.getElementById("profile-image-input")?.click()}
-              >
-                {isUploadingImage ? "A enviar..." : "Trocar foto"}
-              </Button>
               <input
                 id="profile-image-input"
                 type="file"
@@ -231,18 +221,6 @@ export default function ProfilePage() {
                 onChange={handleImageChange}
                 disabled={isUploadingImage}
               />
-              {user.profile_image_url ? (
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  className="rounded-full"
-                  onClick={handleDeleteImage}
-                  disabled={isUploadingImage}
-                >
-                  Remover foto
-                </Button>
-              ) : null}
             </div>
           </CardContent>
         </Card>
