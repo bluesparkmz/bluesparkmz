@@ -34,15 +34,15 @@ function InfoRow({
   value: string;
 }) {
   return (
-    <div className="flex items-center gap-4 rounded-[28px] bg-white px-4 py-4 shadow-sm ring-1 ring-black/5">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
+    <div className="flex items-center gap-4 rounded-[28px] border border-border/70 bg-card px-4 py-4 shadow-sm">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
         {icon}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-semibold text-slate-900">{title}</p>
-        <p className="text-sm text-slate-500">{value}</p>
+        <p className="text-sm font-semibold text-foreground">{title}</p>
+        <p className="text-sm text-muted-foreground">{value}</p>
       </div>
-      <ChevronRight className="h-5 w-5 text-slate-300" />
+      <ChevronRight className="h-5 w-5 text-muted-foreground/60" />
     </div>
   );
 }
@@ -115,7 +115,7 @@ export default function ProfilePage() {
 
   if (isLoading || !user) {
     return (
-      <div className="min-h-screen bg-[#eef3fb]">
+      <div className="min-h-screen bg-background">
         <header className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-5">
           <Link
             href="/"
@@ -128,7 +128,7 @@ export default function ProfilePage() {
         <main className="mx-auto flex min-h-[60vh] w-full max-w-3xl items-center justify-center px-4">
           <div className="text-center">
             <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-indigo-100 border-t-indigo-600" />
-            <p className="mt-4 text-sm text-slate-500">A carregar perfil...</p>
+            <p className="mt-4 text-sm text-muted-foreground">A carregar perfil...</p>
           </div>
         </main>
       </div>
@@ -136,7 +136,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#eef3fb]">
+    <div className="min-h-screen bg-background">
       <header className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-5">
         <Link
           href="/"
@@ -148,13 +148,13 @@ export default function ProfilePage() {
       </header>
 
       <main className="mx-auto w-full max-w-3xl space-y-5 px-4 pb-10 pt-2">
-        <Card className="overflow-hidden rounded-[32px] border-none bg-gradient-to-br from-white via-white to-indigo-50 shadow-sm">
+        <Card className="overflow-hidden rounded-[32px] border border-border/60 bg-gradient-to-br from-card via-card to-primary/5 shadow-sm">
           <CardContent className="p-5 sm:p-6">
             <div className="mb-5">
-              <h2 className="text-3xl font-black tracking-tight text-slate-950">
+              <h2 className="text-3xl font-black tracking-tight text-foreground">
                 Perfil
               </h2>
-              <p className="mt-1 text-sm font-semibold text-slate-500">
+              <p className="mt-1 text-sm font-semibold text-muted-foreground">
                 Conta central BlueSpark MZ
               </p>
             </div>
@@ -162,11 +162,11 @@ export default function ProfilePage() {
             <div className="flex items-start justify-between gap-4">
               <div className="flex min-w-0 items-center gap-4">
                 <div className="relative">
-                  <Avatar className="h-20 w-20 ring-4 ring-white shadow-sm">
+                  <Avatar className="h-20 w-20 ring-4 ring-background shadow-sm">
                     <AvatarImage src={user.profile_image_url || ""} alt={user.full_name || user.username} />
                     <AvatarFallback>{getInitials(user.full_name, user.username)}</AvatarFallback>
                   </Avatar>
-                  <label className="absolute -bottom-1 -right-1 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white text-indigo-600 shadow-md ring-1 ring-black/5">
+                  <label className="absolute -bottom-1 -right-1 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-border bg-card text-primary shadow-md">
                     <input
                       type="file"
                       accept="image/*"
@@ -179,16 +179,16 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="min-w-0">
-                  <h1 className="truncate text-2xl font-semibold text-slate-900">
+                  <h1 className="truncate text-2xl font-semibold text-foreground">
                     {user.full_name || user.username}
                   </h1>
-                  <p className="truncate text-sm text-slate-500">{user.email}</p>
+                  <p className="truncate text-sm text-muted-foreground">{user.email}</p>
                   <div className="mt-3 flex flex-wrap items-center gap-2">
                     <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                       <CheckCircle2 className="h-3.5 w-3.5" />
                       {user.is_verified ? "Conta verificada" : "Conta pendente"}
                     </span>
-                    <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+                    <span className="inline-flex rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
                       @{user.username}
                     </span>
                   </div>
@@ -198,7 +198,7 @@ export default function ProfilePage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="shrink-0 rounded-full border-red-200 bg-white text-red-600 hover:bg-red-50 hover:text-red-700"
+                className="shrink-0 rounded-full border-red-200/70 bg-card text-red-600 hover:bg-red-500/10 hover:text-red-700 dark:border-red-900/70 dark:text-red-400 dark:hover:bg-red-500/15 dark:hover:text-red-300"
                 onClick={() => {
                   logout();
                   router.push("/login");
@@ -228,11 +228,11 @@ export default function ProfilePage() {
           <InfoRow icon={<ShieldCheck className="h-5 w-5" />} title="WhatsApp" value={user.whatsapp_number || "Nao verificado"} />
         </section>
 
-        <Card className="rounded-[32px] border-none shadow-sm">
+        <Card className="rounded-[32px] border border-border/60 bg-card shadow-sm">
           <CardContent className="space-y-5 p-5 sm:p-6">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">Dados do perfil</h2>
-              <p className="text-sm text-slate-500">Atualize os dados principais da sua conta BlueSpark.</p>
+              <h2 className="text-lg font-semibold text-foreground">Dados do perfil</h2>
+              <p className="text-sm text-muted-foreground">Atualize os dados principais da sua conta BlueSpark.</p>
             </div>
 
             <form onSubmit={handleSaveProfile} className="space-y-4">
@@ -242,7 +242,7 @@ export default function ProfilePage() {
                   id="full_name"
                   value={fullName}
                   onChange={(event) => setFullName(event.target.value)}
-                  className="h-12 rounded-2xl border-slate-200"
+                  className="h-12 rounded-2xl border-border"
                 />
               </div>
 
@@ -253,7 +253,7 @@ export default function ProfilePage() {
                   value={phone}
                   onChange={(event) => setPhone(event.target.value)}
                   placeholder="25884..."
-                  className="h-12 rounded-2xl border-slate-200"
+                  className="h-12 rounded-2xl border-border"
                 />
               </div>
 
@@ -264,11 +264,11 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-[32px] border-none shadow-sm">
+        <Card className="rounded-[32px] border border-border/60 bg-card shadow-sm">
           <CardContent className="space-y-4 p-5 sm:p-6">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">Produtos ativos</h2>
-              <p className="text-sm text-slate-500">Apps e acessos ligados a esta conta central.</p>
+              <h2 className="text-lg font-semibold text-foreground">Produtos ativos</h2>
+              <p className="text-sm text-muted-foreground">Apps e acessos ligados a esta conta central.</p>
             </div>
 
             {membershipSummary.length ? (
@@ -276,21 +276,21 @@ export default function ProfilePage() {
                 {membershipSummary.map((membership) => (
                   <div
                     key={`${membership.product.code}-${membership.role}`}
-                    className="flex items-center gap-4 rounded-[24px] bg-slate-50 px-4 py-4"
+                    className="flex items-center gap-4 rounded-[24px] bg-secondary/60 px-4 py-4"
                   >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                       <WalletCards className="h-5 w-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-slate-900">{membership.product.name}</p>
-                      <p className="text-sm text-slate-500">{membership.role}</p>
+                      <p className="text-sm font-semibold text-foreground">{membership.product.name}</p>
+                      <p className="text-sm text-muted-foreground">{membership.role}</p>
                     </div>
-                    <ChevronRight className="h-5 w-5 text-slate-300" />
+                    <ChevronRight className="h-5 w-5 text-muted-foreground/60" />
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="rounded-[24px] bg-slate-50 px-4 py-5 text-sm text-slate-500">
+              <div className="rounded-[24px] bg-secondary/60 px-4 py-5 text-sm text-muted-foreground">
                 Ainda nao ha produtos ativos ligados a esta conta.
               </div>
             )}
