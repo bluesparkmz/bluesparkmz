@@ -296,20 +296,6 @@ export default function ProfilePage() {
             )}
           </CardContent>
         </Card>
-
-        <Card className="rounded-[32px] border-none shadow-sm">
-          <CardContent className="space-y-3 p-5 sm:p-6">
-            <h2 className="text-lg font-semibold text-slate-900">Conta e login</h2>
-            <div className="rounded-[24px] bg-slate-50 px-4 py-4">
-              <p className="text-sm font-medium text-slate-900">Username</p>
-              <p className="mt-1 text-sm text-slate-500">@{user.username}</p>
-            </div>
-            <div className="rounded-[24px] bg-slate-50 px-4 py-4">
-              <p className="text-sm font-medium text-slate-900">ID central</p>
-              <p className="mt-1 break-all text-sm text-slate-500">{user.id}</p>
-            </div>
-          </CardContent>
-        </Card>
       </main>
     </div>
   );
