@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Camera, CheckCircle2, ChevronRight, LogOut, Mail, Phone, ShieldCheck, WalletCards } from "lucide-react";
+import { Camera, ChevronRight, LogOut, Mail, Phone, ShieldCheck, WalletCards } from "lucide-react";
 import { toast } from "sonner";
 import AuthHeaderControls from "@/components/auth/AuthHeaderControls";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -148,13 +148,13 @@ export default function ProfilePage() {
       </header>
 
       <main className="mx-auto w-full max-w-3xl space-y-5 px-4 pb-10 pt-2">
-        <Card className="overflow-hidden rounded-[32px] border border-border/60 bg-gradient-to-br from-card via-card to-primary/5 shadow-sm">
-          <CardContent className="p-5 sm:p-6">
-            <div className="mb-5">
-              <h2 className="text-3xl font-black tracking-tight text-foreground">
+        <Card className="overflow-hidden rounded-[28px] border border-border/60 bg-gradient-to-br from-card via-card to-primary/5 shadow-sm">
+          <CardContent className="p-4 sm:p-6">
+            <div className="mb-4">
+              <h2 className="text-2xl font-black tracking-tight text-foreground sm:text-3xl">
                 Perfil
               </h2>
-              <p className="mt-1 text-sm font-semibold text-muted-foreground">
+              <p className="mt-1 text-xs font-semibold text-muted-foreground sm:text-sm">
                 Conta central BlueSpark MZ
               </p>
             </div>
@@ -162,7 +162,7 @@ export default function ProfilePage() {
             <div className="flex items-start justify-between gap-4">
               <div className="flex min-w-0 items-center gap-4">
                 <div className="relative">
-                  <Avatar className="h-20 w-20 ring-4 ring-background shadow-sm">
+                  <Avatar className="h-16 w-16 ring-4 ring-background shadow-sm sm:h-20 sm:w-20">
                     <AvatarImage src={user.profile_image_url || ""} alt={user.full_name || user.username} />
                     <AvatarFallback>{getInitials(user.full_name, user.username)}</AvatarFallback>
                   </Avatar>
@@ -179,16 +179,12 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="min-w-0">
-                  <h1 className="truncate text-2xl font-semibold text-foreground">
+                  <h1 className="truncate text-xl font-semibold text-foreground sm:text-2xl">
                     {user.full_name || user.username}
                   </h1>
-                  <p className="truncate text-sm text-muted-foreground">{user.email}</p>
-                  <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                      <CheckCircle2 className="h-3.5 w-3.5" />
-                      {user.is_verified ? "Conta verificada" : "Conta pendente"}
-                    </span>
-                    <span className="inline-flex rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
+                  <p className="truncate text-xs text-muted-foreground sm:text-sm">{user.email}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span className="inline-flex rounded-full bg-secondary px-3 py-1 text-[11px] font-medium text-secondary-foreground sm:text-xs">
                       @{user.username}
                     </span>
                   </div>
@@ -198,14 +194,14 @@ export default function ProfilePage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="shrink-0 rounded-full border-red-200/70 bg-card text-red-600 hover:bg-red-500/10 hover:text-red-700 dark:border-red-900/70 dark:text-red-400 dark:hover:bg-red-500/15 dark:hover:text-red-300"
+                className="shrink-0 rounded-full border-red-200/70 bg-card px-3 text-red-600 hover:bg-red-500/10 hover:text-red-700 dark:border-red-900/70 dark:text-red-400 dark:hover:bg-red-500/15 dark:hover:text-red-300"
                 onClick={() => {
                   logout();
                   router.push("/login");
                 }}
               >
-                <LogOut className="mr-2 h-4 w-4" />
-                Sair
+                <LogOut className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Sair</span>
               </Button>
             </div>
 
