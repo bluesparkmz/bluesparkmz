@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { register, user, isLoading } = useAuth();
+  const { register, logout, user, isLoading } = useAuth();
   const [step, setStep] = useState<"email" | "details">("email");
   const [form, setForm] = useState({
     email: "",
@@ -70,6 +70,10 @@ export default function RegisterPage() {
 
       const storedRefreshToken = localStorage.getItem("bluespark_refresh_token");
       if (!storedRefreshToken) {
+        if (!cancelled) {
+          logout();
+          setIsHandingOff(false);
+        }
         return;
       }
 
@@ -81,7 +85,9 @@ export default function RegisterPage() {
         }
       } catch {
         if (!cancelled) {
+          logout();
           setIsHandingOff(false);
+          toast.error("Sessao expirada. Faca login novamente.");
         }
       }
     }
@@ -91,7 +97,7 @@ export default function RegisterPage() {
     return () => {
       cancelled = true;
     };
-  }, [isLoading, productCode, redirectUri, router, user]);
+  }, [isLoading, logout, productCode, redirectUri, router, user]);
 
   function handleContinueWithEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

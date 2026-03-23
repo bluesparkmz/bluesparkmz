@@ -52,6 +52,21 @@ export const authStorage = {
   refreshTokenKey: "bluespark_refresh_token",
 };
 
+function dispatchMaintenanceError() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.dispatchEvent(
+    new CustomEvent("globalError", {
+      detail: {
+        type: "MAINTENANCE_ERROR",
+        message: "Estamos em manutencao, tente mais tarde ou reporta para a nossa equipa",
+      },
+    }),
+  );
+}
+
 async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const headers = new Headers(options.headers);
 
@@ -70,6 +85,10 @@ async function apiRequest<T>(path: string, options: RequestOptions = {}): Promis
   });
 
   if (!response.ok) {
+    if ([502, 503, 504].includes(response.status)) {
+      dispatchMaintenanceError();
+    }
+
     let message = "O pedido falhou";
     try {
       const data = await response.json();

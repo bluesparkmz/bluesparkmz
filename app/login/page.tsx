@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, user, isLoading, refreshToken } = useAuth();
+  const { login, logout, user, isLoading, refreshToken } = useAuth();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -89,6 +89,10 @@ export default function LoginPage() {
       }
 
       if (!refreshToken) {
+        if (!cancelled) {
+          logout();
+          setIsHandingOff(false);
+        }
         return;
       }
 
@@ -100,7 +104,9 @@ export default function LoginPage() {
         }
       } catch {
         if (!cancelled) {
+          logout();
           setIsHandingOff(false);
+          toast.error("Sessao expirada. Faca login novamente.");
         }
       }
     }
@@ -110,7 +116,7 @@ export default function LoginPage() {
     return () => {
       cancelled = true;
     };
-  }, [isLoading, productCode, redirectUri, refreshToken, router, user]);
+  }, [isLoading, logout, productCode, redirectUri, refreshToken, router, user]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
