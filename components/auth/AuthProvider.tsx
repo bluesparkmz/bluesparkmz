@@ -62,10 +62,18 @@ function clearTokens() {
   localStorage.removeItem(authStorage.refreshTokenKey);
 }
 
+function getInitialStoredToken(key: string) {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  return localStorage.getItem(key);
+}
+
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(() => getInitialStoredToken(authStorage.accessTokenKey));
+  const [refreshToken, setRefreshToken] = useState<string | null>(() => getInitialStoredToken(authStorage.refreshTokenKey));
   const [isLoading, setIsLoading] = useState(true);
 
   const applyTokens = useCallback((tokens: Pick<AuthTokens, "access_token" | "refresh_token">) => {
@@ -111,23 +119,10 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, [accessToken, applyTokens, logout, refreshToken]);
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem(authStorage.accessTokenKey);
-    const storedRefreshToken = localStorage.getItem(authStorage.refreshTokenKey);
-
-    if (!storedAccessToken || !storedRefreshToken) {
-      setIsLoading(false);
-      return;
-    }
-
-    setAccessToken(storedAccessToken);
-    setRefreshToken(storedRefreshToken);
-  }, []);
-
-  useEffect(() => {
     let isMounted = true;
 
     async function bootstrap() {
-      if (!accessToken) {
+      if (!accessToken || !refreshToken) {
         if (isMounted) {
           setIsLoading(false);
         }

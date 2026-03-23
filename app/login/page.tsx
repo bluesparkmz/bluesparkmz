@@ -28,6 +28,7 @@ export default function LoginPage() {
   const [redirectUri, setRedirectUri] = useState<string | null>(null);
   const [productCode, setProductCode] = useState<string | null>(null);
   const [provider, setProvider] = useState<string | null>(null);
+  const shouldHideForm = isLoading || isHandingOff || !!user;
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -135,6 +136,22 @@ export default function LoginPage() {
     redirectUri,
     productCode,
   });
+
+  if (shouldHideForm) {
+    return (
+      <AuthPageShell
+        title="Entrar na sua conta"
+        description={user ? "Sessao encontrada. A redirecionar..." : "A validar a sua sessao..."}
+      >
+        <div className="flex min-h-[220px] flex-col items-center justify-center gap-4 text-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
+          <p className="text-sm text-muted-foreground">
+            {user ? "Nao vamos mostrar o formulario porque a sua conta ja esta autenticada." : "Estamos a verificar se ja existe uma sessao valida."}
+          </p>
+        </div>
+      </AuthPageShell>
+    );
+  }
 
   return (
     <AuthPageShell
