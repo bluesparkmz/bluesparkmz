@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Heart, MapPin, Zap } from "lucide-react";
 
 const Footer = () => {
@@ -23,12 +24,16 @@ const Footer = () => {
       { label: "+258 86 028 9475", href: "tel:+258860289475" },
       { label: "bluesparkmz1@gmail.com", href: "mailto:bluesparkmz1@gmail.com" },
     ],
+    legal: [
+      { label: "Política de Privacidade", href: "/politica-de-privacidade" },
+      { label: "Termos e Condições", href: "/termos-e-condicoes" },
+    ],
   };
 
   return (
     <footer className="bg-foreground py-16 text-background dark:bg-card dark:text-foreground">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
             <a href="#inicio" className="mb-4 flex items-center gap-2">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-gradient">
@@ -91,6 +96,22 @@ const Footer = () => {
                   >
                     {link.label}
                   </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="mb-4 text-lg font-display font-semibold">Legal</h4>
+            <ul className="space-y-3">
+              {links.legal.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="transition-colors text-background/70 hover:text-background dark:text-muted-foreground dark:hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
