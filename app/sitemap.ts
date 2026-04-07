@@ -34,13 +34,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/politica-de-privacidade`,
+      url: `${BASE_URL}/privacy`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.4,
     },
     {
-      url: `${BASE_URL}/termos-e-condicoes`,
+      url: `${BASE_URL}/terms`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.4,

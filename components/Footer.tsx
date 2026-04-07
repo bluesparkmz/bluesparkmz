@@ -25,8 +25,8 @@ const Footer = () => {
       { label: "bluesparkmz1@gmail.com", href: "mailto:bluesparkmz1@gmail.com" },
     ],
     legal: [
-      { label: "Política de Privacidade", href: "/politica-de-privacidade" },
-      { label: "Termos e Condições", href: "/termos-e-condicoes" },
+      { label: "Política de Privacidade", href: "/privacy" },
+      { label: "Termos e Condições", href: "/terms" },
     ],
   };
 
