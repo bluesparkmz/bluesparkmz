@@ -1,11 +1,10 @@
 import NavbarClient from "@/components/NavbarClient";
 
 const navLinks = [
-  { href: "/#inicio", label: "Início" },
-  { href: "/#cloud", label: "Cloud", badge: "Novo" },
+  { href: "/#inicio", label: "Inicio" },
   { href: "/#sobre", label: "Sobre" },
-  { href: "/#servicos", label: "Serviços" },
-  { href: "/#portfolio", label: "Produtos" },
+  { href: "/#servicos", label: "Servicos" },
+  { href: "/#portfolio", label: "Portfolio" },
   { href: "/#equipa", label: "Equipa" },
   { href: "/#contacto", label: "Contacto" },
 ];

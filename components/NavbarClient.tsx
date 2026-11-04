@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 type NavLink = {
   href: string;
   label: string;
-  badge?: string;
 };
 
 export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
@@ -68,29 +67,19 @@ export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
           isVisible ? "translate-y-0" : "-translate-y-full"
         } ${
           (!isHomePage || scrolled || isOpen)
-            ? "border-b border-border/60 bg-background shadow-none"
+            ? "border-b border-border/50 bg-card shadow-none"
             : "border-b border-transparent bg-transparent shadow-none"
         }`}
       >
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex h-16 items-center justify-between lg:h-20">
             <Link href="/" className="group">
-              <span className="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/favicon.png"
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="size-8 shrink-0 object-contain"
-                />
-                <span>
-                  BlueSpark <span className="text-primary">MZ</span>
-                </span>
+              <span className="text-xl font-display font-bold text-foreground">
+                Blue<span className="text-gradient-indigo">Spark</span> MZ
               </span>
             </Link>
 
-            <div className="hidden items-center gap-6 xl:gap-8 lg:flex">
+            <div className="hidden items-center gap-8 lg:flex">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
@@ -98,11 +87,6 @@ export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
                   className="group relative text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
                 >
                   {link.label}
-                  {link.badge ? (
-                    <span className="ml-1.5 rounded-full bg-primary px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none text-primary-foreground">
-                      {link.badge}
-                    </span>
-                  ) : null}
                   <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
                 </a>
               ))}
@@ -160,11 +144,6 @@ export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
                   className="border-b border-border/60 py-5 text-2xl font-medium text-foreground"
                 >
                   {link.label}
-                  {link.badge ? (
-                    <span className="ml-2 rounded-full bg-primary px-2 py-0.5 align-middle text-xs font-semibold uppercase text-primary-foreground">
-                      {link.badge}
-                    </span>
-                  ) : null}
                 </a>
               ))}
             </div>

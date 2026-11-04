@@ -14,14 +14,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-jakarta)", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["var(--font-jakarta)", "ui-sans-serif", "system-ui", "sans-serif"],
-        mono: ["var(--font-jetbrains-mono)", "ui-monospace", "monospace"],
+        sans: ["Inter", "sans-serif"],
+        display: ["Sora", "sans-serif"],
       },
       colors: {
-        success: "hsl(var(--success))",
-        warning: "hsl(var(--warning))",
-        "primary-glow": "hsl(var(--primary-glow))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -64,6 +60,12 @@ export default {
           500: "hsl(var(--indigo-500))",
           600: "hsl(var(--indigo-600))",
           700: "hsl(var(--indigo-700))",
+        },
+        instagram: {
+          pink: "hsl(var(--instagram-pink))",
+          purple: "hsl(var(--instagram-purple))",
+          orange: "hsl(var(--instagram-orange))",
+          yellow: "hsl(var(--instagram-yellow))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
