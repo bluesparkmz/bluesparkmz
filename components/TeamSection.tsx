@@ -1,4 +1,4 @@
-import { Code2 } from "lucide-react";
+﻿import { Code2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import AnimatedSection from "./AnimatedSection";
 
@@ -7,18 +7,18 @@ const team = [
     name: "Dique Joaquim",
     role: "CEO & Co-Fundador",
     nickname: "Ghost04",
-    bio: "Programador desde 2020, especializado em HTML, CSS, JavaScript, Python e PHP. Apaixonado por criar soluções que fazem a diferença.",
+    bio: "Programador desde 2020, especializado em HTML, CSS, JavaScript, Python e PHP. Apaixonado por criar soluÃ§Ãµes que fazem a diferenÃ§a.",
     languages: ["Python", "JavaScript", "HTML/CSS", "Java", "PHP"],
-    gradient: "from-indigo-500 to-purple-500",
+    gradient: "from-primary to-primary-glow",
     avatar: "https://avatars.githubusercontent.com/diguijoaquim",
   },
   {
-    name: "Jorge Sebastião Paulo",
+    name: "Jorge SebastiÃ£o Paulo",
     role: "CEO & Co-Fundador",
     nickname: null,
-    bio: "Programador desde 2021, domina JavaScript e Python. Lidera com visão estratégica e paixão pela inovação tecnológica.",
+    bio: "Programador desde 2021, domina JavaScript e Python. Lidera com visÃ£o estratÃ©gica e paixÃ£o pela inovaÃ§Ã£o tecnolÃ³gica.",
     languages: ["JavaScript", "Python", "PHP"],
-    gradient: "from-purple-500 to-pink-500",
+    gradient: "from-primary-glow to-primary",
     avatar: "https://avatars.githubusercontent.com/Jorgepaulo123",
   },
 ];
@@ -33,11 +33,11 @@ const TeamSection = () => {
             Nossa Equipa
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
-            Conheça os{" "}
-            <span className="text-gradient-indigo">Fundadores</span>
+            ConheÃ§a os{" "}
+            <span className="text-primary">Fundadores</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Uma dupla jovem e talentosa que está a construir o futuro da tecnologia em Moçambique.
+            Uma dupla jovem e talentosa que estÃ¡ a construir o futuro da tecnologia em MoÃ§ambique.
           </p>
         </AnimatedSection>
 
@@ -49,7 +49,7 @@ const TeamSection = () => {
               animation={index === 0 ? "fade-left" : "fade-right"}
               delay={index * 150}
             >
-              <Card variant="elevated" className="group overflow-hidden h-full">
+              <Card variant="default" className="group overflow-hidden h-full">
                 <CardContent className="p-8 relative">
                   {/* Gradient Background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${member.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
@@ -114,7 +114,7 @@ const TeamSection = () => {
           <div className="inline-flex items-center gap-3 px-6 py-4 bg-card border border-border/50 rounded-2xl shadow-sm">
             <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
             <span className="text-muted-foreground">
-              Baseados em <span className="text-foreground font-semibold">Niassa, Norte de Moçambique</span>
+              Baseados em <span className="text-foreground font-semibold">Niassa, Norte de MoÃ§ambique</span>
             </span>
           </div>
         </AnimatedSection>

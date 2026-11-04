@@ -11,7 +11,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 export default function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" forcedTheme="light" enableSystem={false}>
       <TooltipProvider>
         <AuthProvider>
           <ShadcnToaster />

@@ -1,6 +1,7 @@
-import { ExternalLink } from "lucide-react";
+﻿import { ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { CLOUD_URL } from "@/lib/cloud";
 import AnimatedSection from "./AnimatedSection";
 
 const skyvendaPreview = "/skyvenda-preview.webp";
@@ -13,10 +14,21 @@ const sparkflowPreview = "/favicon.png";
 
 const projects = [
   {
+    title: "BlueSpark Cloud",
+    category: "Cloud & DevOps",
+    description:
+      "Plataforma de hospedagem de apps, APIs, bancos de dados e gateway WhatsApp. Deploy via Git em segundos, com domínio e SSL prontos.",
+    image: "/cloud/logo.png",
+    logoTile: true,
+    link: CLOUD_URL,
+    featured: false,
+    tags: ["Deploy", "Bancos", "WhatsApp API"],
+  },
+  {
     title: "SkyVenda MZ",
     category: "Social Commerce",
     description:
-      "A primeira rede social moçambicana focada em vendas e interação em tempo real entre clientes e lojas.",
+      "A primeira rede social moÃ§ambicana focada em vendas e interaÃ§Ã£o em tempo real entre clientes e lojas.",
     image: skyvendaPreview,
     link: "https://skyvenda.com",
     featured: true,
@@ -26,7 +38,7 @@ const projects = [
     title: "SkyWallet",
     category: "Fintech",
     description:
-      "Carteira digital integrada ao ecossistema BlueSpark para transações seguras e rápidas.",
+      "Carteira digital integrada ao ecossistema BlueSpark para transaÃ§Ãµes seguras e rÃ¡pidas.",
     image: skywalletPreview,
     link: null,
     featured: false,
@@ -36,7 +48,7 @@ const projects = [
     title: "SmartMoz",
     category: "Digital Learning",
     description:
-      "Plataforma para venda e distribuição de cursos, e-books e outros produtos digitais.",
+      "Plataforma para venda e distribuiÃ§Ã£o de cursos, e-books e outros produtos digitais.",
     image: smartmozPreview,
     link: null,
     featured: false,
@@ -46,7 +58,7 @@ const projects = [
     title: "FastFood",
     category: "Food Delivery",
     description:
-      "Sistema para operações de restaurantes, menu digital, pedidos e entrega.",
+      "Sistema para operaÃ§Ãµes de restaurantes, menu digital, pedidos e entrega.",
     image: fastfoodPreview,
     link: null,
     featured: false,
@@ -56,7 +68,7 @@ const projects = [
     title: "SkyPDV",
     category: "Retail Operations",
     description:
-      "Sistema PDV para gestão de vendas locais, caixa, inventário e operação comercial.",
+      "Sistema PDV para gestÃ£o de vendas locais, caixa, inventÃ¡rio e operaÃ§Ã£o comercial.",
     image: skypdvPreview,
     link: null,
     featured: false,
@@ -66,7 +78,7 @@ const projects = [
     title: "ContaBliza",
     category: "Accounting",
     description:
-      "Sistema moderno de contabilidade para empresas e negócios com foco em controlo financeiro, faturação e relatórios.",
+      "Sistema moderno de contabilidade para empresas e negÃ³cios com foco em controlo financeiro, faturaÃ§Ã£o e relatÃ³rios.",
     image: contablizaPreview,
     link: null,
     featured: false,
@@ -76,7 +88,7 @@ const projects = [
     title: "SparkFlow",
     category: "Messaging Automation",
     description:
-      "Gateway de automação de mensagens WhatsApp e SMS para campanhas, notificações e fluxos operacionais.",
+      "Gateway de automaÃ§Ã£o de mensagens WhatsApp e SMS para campanhas, notificaÃ§Ãµes e fluxos operacionais.",
     image: sparkflowPreview,
     link: null,
     featured: false,
@@ -96,11 +108,11 @@ const PortfolioSection = () => {
             Portfolio
           </span>
           <h2 className="mb-6 text-3xl font-display font-bold text-foreground md:text-4xl lg:text-5xl">
-            Our <span className="text-gradient-indigo">Products</span>
+            Our <span className="text-primary">Products</span>
           </h2>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Conheça os produtos que a BlueSpark MZ está a construir para comércio,
-            finanças, operações, contabilidade e automação de comunicação.
+            ConheÃ§a os produtos que a BlueSpark MZ estÃ¡ a construir para comÃ©rcio,
+            finanÃ§as, operaÃ§Ãµes, contabilidade e automaÃ§Ã£o de comunicaÃ§Ã£o.
           </p>
         </AnimatedSection>
 
@@ -114,11 +126,11 @@ const PortfolioSection = () => {
                     alt={featuredProject.title}
                     className="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105 lg:h-full"
                   />
-                  <div className="absolute inset-0 bg-indigo-gradient opacity-0 transition-opacity duration-500 group-hover:opacity-10" />
+                  
                 </div>
 
                 <div className="flex flex-col justify-center p-8 lg:p-12">
-                  <span className="mb-4 inline-block w-fit rounded-full bg-instagram-gradient px-3 py-1 text-xs font-semibold text-primary-foreground">
+                  <span className="mb-4 inline-block w-fit rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
                     Featured
                   </span>
                   <span className="mb-2 text-sm text-muted-foreground">
@@ -161,11 +173,22 @@ const PortfolioSection = () => {
             <AnimatedSection key={project.title} animation="fade-up" delay={index * 100}>
               <Card variant="project" className="h-full">
                 <div className="relative aspect-video overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                  {project.logoTile ? (
+                    <div className="relative grid h-full w-full place-items-center bg-hero-gradient">
+                      <div className="absolute inset-0 bg-grid opacity-40" />
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="relative size-20 object-contain transition-transform duration-700 group-hover:scale-110"
+                      />
+                    </div>
+                  ) : (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform duration-300 group-hover:translate-y-0">
                     <div className="flex flex-wrap gap-1">
@@ -191,6 +214,17 @@ const PortfolioSection = () => {
                   <p className="line-clamp-3 text-sm text-muted-foreground">
                     {project.description}
                   </p>
+                  {project.link ? (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                    >
+                      Abrir {project.title}
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  ) : null}
                 </div>
               </Card>
             </AnimatedSection>

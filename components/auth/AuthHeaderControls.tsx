@@ -1,8 +1,6 @@
 "use client";
 
-import { Globe, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
+import { Globe } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -12,13 +10,6 @@ import {
 } from "@/components/ui/select";
 
 export default function AuthHeaderControls() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
-
-  function toggleTheme() {
-    const currentTheme = theme === "system" ? resolvedTheme : theme;
-    setTheme(currentTheme === "dark" ? "light" : "dark");
-  }
-
   return (
     <div className="flex shrink-0 items-center gap-1 sm:gap-3">
       <div className="flex items-center gap-2 text-muted-foreground">
@@ -34,17 +25,6 @@ export default function AuthHeaderControls() {
           </SelectContent>
         </Select>
       </div>
-
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        className="h-10 w-10 rounded-full"
-        onClick={toggleTheme}
-        aria-label="Alternar tema"
-      >
-        {resolvedTheme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-      </Button>
     </div>
   );
 }

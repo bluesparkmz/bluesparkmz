@@ -1,22 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import Providers from "./providers";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"]
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  display: "swap",
 });
+
+const siteDescription =
+  "BlueSpark MZ é uma empresa moçambicana de tecnologia. Conheça o BlueSpark Cloud — hospedagem de apps, APIs e automação WhatsApp com deploy em segundos — e os nossos produtos como o SkyVenda MZ.";
 
 export const metadata: Metadata = {
   title: {
-    default: "BlueSpark MZ",
+    default: "BlueSpark MZ — Tecnologia e BlueSpark Cloud",
     template: "%s | BlueSpark MZ",
   },
   icons: {
@@ -24,24 +30,25 @@ export const metadata: Metadata = {
     shortcut: "/favicon.png",
     apple: "/favicon.png",
   },
-  description:
-    "BlueSpark MZ é uma startup moçambicana especializada em desenvolvimento de software e tecnologias. O seu primeiro grande lançamento é o SkyVenda MZ.",
+  description: siteDescription,
   keywords: [
     "BlueSpark MZ",
+    "BlueSpark Cloud",
+    "Hospedagem de apps",
+    "Deploy Moçambique",
+    "Gateway WhatsApp",
     "Startup Moçambique",
     "Desenvolvimento de Software",
     "SkyVenda MZ",
     "Tecnologia Moçambique",
     "Niassa",
-    "Apps Moçambique",
   ],
   openGraph: {
     title: {
-      default: "BlueSpark MZ",
+      default: "BlueSpark MZ — Tecnologia e BlueSpark Cloud",
       template: "%s | BlueSpark MZ",
     },
-    description:
-      "BlueSpark MZ é uma startup moçambicana especializada em desenvolvimento de software e tecnologias. O seu primeiro grande lançamento é o SkyVenda MZ.",
+    description: siteDescription,
     url: "https://bluesparkmz.com",
     siteName: "BlueSpark MZ",
     images: [
@@ -57,8 +64,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BlueSpark MZ",
-    description: "BlueSpark MZ - Startup Moçambicana de Tecnologia e Software.",
+    title: "BlueSpark MZ — Tecnologia e BlueSpark Cloud",
+    description:
+      "BlueSpark MZ - Tecnologia moçambicana. Conheça o BlueSpark Cloud: deploy de apps, APIs e WhatsApp.",
     images: ["/smartmoz-preview.png"],
   },
 };
@@ -76,9 +84,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${jakarta.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

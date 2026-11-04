@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+﻿import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import AnimatedSection from "./AnimatedSection";
@@ -24,8 +24,8 @@ const contactInfo = [
   },
   {
     icon: MapPin,
-    label: "Localização",
-    value: "Niassa, Moçambique",
+    label: "LocalizaÃ§Ã£o",
+    value: "Niassa, MoÃ§ambique",
     href: null,
   },
 ];
@@ -47,7 +47,7 @@ const ContactSection = () => {
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
             Vamos{" "}
-            <span className="text-gradient-indigo">conversar</span>?
+            <span className="text-primary">conversar</span>?
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
             Tem um projeto em mente? Entre em contacto connosco e vamos transformar a sua ideia em realidade.
@@ -62,12 +62,12 @@ const ContactSection = () => {
               animation="scale"
               delay={index * 100}
             >
-              <Card variant="hover" className="group h-full">
+              <Card variant="hover" className="group h-full rounded-2xl border-border shadow-card">
                 <CardContent className="p-6 text-center">
                   {/* Icon */}
                   <div className="mb-4 flex justify-center">
-                    <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-indigo-gradient group-hover:shadow-indigo transition-all duration-300">
-                      <info.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
+                    <div className="size-12 bg-accent rounded-xl flex items-center justify-center group-hover:bg-primary transition-all duration-300">
+                      <info.icon className="w-6 h-6 text-accent-foreground group-hover:text-primary-foreground transition-colors duration-300" />
                     </div>
                   </div>
 
@@ -98,9 +98,9 @@ const ContactSection = () => {
                 <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>
-            <Button variant="instagram" size="xl" asChild>
-              <a href="https://skyvenda.com" target="_blank" rel="noopener noreferrer">
-                Visitar SkyVenda MZ
+            <Button variant="hero-outline" size="xl" asChild>
+              <a href="https://cloud.bluesparkmz.com/" target="_blank" rel="noopener noreferrer">
+                Abrir BlueSpark Cloud
               </a>
             </Button>
           </div>
