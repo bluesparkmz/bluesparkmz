@@ -273,10 +273,54 @@ export function buildAuthSuccessUrl(
   return url.toString();
 }
 
+/**
+ * Só estes domínios (e subdomínios) recebem tokens de login. Sem esta lista,
+ * qualquer link /login?redirect_uri=https://atacante.com entregava a sessão ao atacante.
+ * Extra por ambiente: NEXT_PUBLIC_ALLOWED_REDIRECT_HOSTS="app.exemplo.com,outro.com"
+ */
+const DEFAULT_REDIRECT_HOSTS = ["bluesparkmz.com", "skyvenda.com", "zymoz.tech"];
+
+function allowedRedirectHosts() {
+  const extra = (process.env.NEXT_PUBLIC_ALLOWED_REDIRECT_HOSTS || "")
+    .split(",")
+    .map((host) => host.trim().toLowerCase())
+    .filter(Boolean);
+  return [...DEFAULT_REDIRECT_HOSTS, ...extra];
+}
+
+export function isAllowedRedirectUri(value: string | null | undefined) {
+  if (!value) {
+    return false;
+  }
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    return false;
+  }
+  if (url.username || url.password) {
+    return false;
+  }
+  const host = url.hostname.toLowerCase();
+  const isLocal = host === "localhost" || host === "127.0.0.1";
+  if (isLocal) {
+    // localhost só fora de produção
+    return process.env.NODE_ENV !== "production" && (url.protocol === "http:" || url.protocol === "https:");
+  }
+  if (url.protocol !== "https:") {
+    return false;
+  }
+  return allowedRedirectHosts().some((allowed) => host === allowed || host.endsWith(`.${allowed}`));
+}
+
 export function buildConsumerRedirectUrl(
   redirectUri: string,
   tokens: Pick<AuthTokens, "access_token" | "refresh_token" | "expires_in">,
 ) {
+  if (!isAllowedRedirectUri(redirectUri)) {
+    // Destino não autorizado: não entrega tokens, fica no perfil.
+    return "/profile";
+  }
   const url = new URL(redirectUri);
   url.searchParams.set("access_token", tokens.access_token);
   url.searchParams.set("refresh_token", tokens.refresh_token);
