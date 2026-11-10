@@ -18,83 +18,44 @@ const HeroSection = () => {
         <div className="absolute left-1/2 top-1/2 h-[140vw] w-[140vw] max-h-[800px] max-w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
       </div>
 
-      <div className="container relative z-10 mx-auto overflow-hidden px-4 pb-20 pt-32 lg:px-8 lg:pt-40">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-          <div className="animate-fade-in space-y-8 text-center lg:text-left">
-            <div className="space-y-4">
-              <a
-                href={CLOUD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
-              >
-                <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
-                  Novo
-                </span>
-                BlueSpark Cloud — apps, APIs, email e WhatsApp
-                <ArrowRight className="h-3 w-3" />
-              </a>
-              <h1 className="text-4xl font-display font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-                Transformamos <span className="text-gradient-indigo">Ideias</span>
-                <br />
-                em <span className="text-gradient-instagram">Soluções</span> Digitais
-              </h1>
-              <p className="mx-auto max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl lg:mx-0">
-                Criamos aplicativos móveis, sistemas desktop e websites que
-                impulsionam negócios em Moçambique e além.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-8 py-4 lg:justify-start">
-              <div className="space-y-1">
-                <div className="text-3xl font-display font-bold text-foreground">2023</div>
-                <div className="text-sm text-muted-foreground">Founded</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-3xl font-display font-bold text-gradient-indigo">5+</div>
-                <div className="text-sm text-muted-foreground">Projects</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-3xl font-display font-bold text-foreground">100%</div>
-                <div className="text-sm text-muted-foreground">Mozambican</div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
-              <Button variant="hero" size="xl" className="group w-full sm:w-auto" asChild>
-                <a href="#portfolio">
-                  Ver Projetos
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </a>
-              </Button>
-              <Button variant="hero-outline" size="xl" className="w-full sm:w-auto" asChild>
-                <a href={CLOUD_URL} target="_blank" rel="noopener noreferrer">
-                  Conhecer BlueSpark Cloud
-                </a>
-              </Button>
-            </div>
-          </div>
-
-          <div
-            className="relative flex justify-center overflow-hidden animate-fade-in-right lg:justify-end"
-            style={{ animationDelay: "0.3s" }}
+      <div className="container relative z-10 mx-auto flex min-h-screen items-center justify-center overflow-hidden px-4 pb-24 pt-32 lg:px-8 lg:pt-40">
+        <div className="mx-auto max-w-3xl animate-fade-in space-y-8 text-center">
+          <a
+            href={CLOUD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
           >
-            <a
-              href={CLOUD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Abrir BlueSpark Cloud"
-              className="group relative block w-full max-w-[22rem] sm:max-w-[26rem] lg:max-w-[30rem] xl:max-w-[34rem]"
-            >
-              <div className="absolute inset-[12%] rounded-full bg-indigo-gradient opacity-25 blur-3xl transition-opacity duration-500 group-hover:opacity-40" />
-              <img
-                src="/cloud/cloud-server-hero.jpg"
-                alt="BlueSpark Cloud — servidor cloud"
-                width={1200}
-                height={900}
-                className="relative w-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.03]"
-              />
-            </a>
+            <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
+              Novo
+            </span>
+            BlueSpark Cloud — apps, APIs, email e WhatsApp
+            <ArrowRight className="h-3 w-3" />
+          </a>
+
+          <h1 className="text-4xl font-display font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
+            Transformamos <span className="text-gradient-indigo">Ideias</span>
+            <br />
+            em <span className="text-gradient-instagram">Soluções</span> Digitais
+          </h1>
+
+          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+            Criamos aplicativos móveis, sistemas desktop e websites que
+            impulsionam negócios em Moçambique e além.
+          </p>
+
+          <div className="flex flex-col items-center justify-center gap-4 pt-2 sm:flex-row">
+            <Button variant="hero" size="xl" className="group w-full sm:w-auto" asChild>
+              <a href="#portfolio">
+                Ver Projetos
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </a>
+            </Button>
+            <Button variant="hero-outline" size="xl" className="w-full sm:w-auto" asChild>
+              <a href={CLOUD_URL} target="_blank" rel="noopener noreferrer">
+                Conhecer BlueSpark Cloud
+              </a>
+            </Button>
           </div>
         </div>
       </div>
