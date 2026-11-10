@@ -25,9 +25,9 @@ const HeroSection = () => {
           </a>
 
           <h1 className="text-4xl font-display font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-            Transformamos <span className="text-gradient-indigo">Ideias</span>
+            BlueSpark MZ
             <br />
-            em <span className="text-gradient-instagram">Soluções</span> Digitais
+            o <span className="text-gradient-indigo">futuro</span> é agora
           </h1>
 
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
