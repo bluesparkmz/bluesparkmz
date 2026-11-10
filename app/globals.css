@@ -42,9 +42,8 @@
     --instagram-purple: 256 100% 65%;
     --instagram-orange: 262 100% 72%;
     --instagram-yellow: 268 100% 80%;
-    /* Fundo estilo Proton: base clara + mancha radial violeta (não cor plana). */
-    --gradient-hero: #f7f5ff;
-    --hero-glow: #673de6;
+    /* Fundo estilo Proton: branco + SVG de blobs com blur (public/hero-gradients.svg). */
+    --gradient-hero: #ffffff;
     --gradient-indigo: linear-gradient(135deg, hsl(255 77% 57%) 0%, hsl(256 100% 65%) 100%);
     --gradient-instagram: linear-gradient(45deg, hsl(255 77% 57%) 0%, hsl(256 100% 65%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(238 72% 99%) 100%);
@@ -107,11 +106,19 @@
     background-image: var(--gradient-instagram);
   }
 
-  /* Clonado do CSS da Proton (.background-gradient-proton + bottom/right):
-     radial-gradient(60% 22rem at 100% 110%, #6d4aff, transparent) sobre fundo claro. */
+  /* Como a Proton: bg-white + SVG (bg-top bg-contain bg-no-repeat) a partir de md. */
   .bg-hero-gradient {
     background-color: var(--gradient-hero);
-    background-image: radial-gradient(60% 22rem at 100% 110%, var(--hero-glow), transparent);
+    background-image: none;
+    background-position: top;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  @media (min-width: 768px) {
+    .bg-hero-gradient {
+      background-image: url("/hero-gradients.svg");
+    }
   }
 
   .bg-indigo-gradient {
