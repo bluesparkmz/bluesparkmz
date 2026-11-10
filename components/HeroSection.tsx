@@ -31,8 +31,9 @@ const HeroSection = () => {
           </h1>
 
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Criamos aplicativos móveis, sistemas desktop e websites que
-            impulsionam negócios em Moçambique e além.
+            A BlueSpark MZ desenvolve tecnologias e infraestruturas digitais,
+            com foco em Cloud Computing, Inteligência Artificial e soluções de
+            software que aceleram a transformação digital.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-4 pt-2 sm:flex-row">
