@@ -3,16 +3,6 @@ import { Button } from "@/components/ui/button";
 
 const CLOUD_URL = "https://cloud.bluesparkmz.com/";
 
-const cloudStacks = [
-  { name: "React", src: "/cloud/react.svg" },
-  { name: "Next.js", src: "/cloud/nextjs.png" },
-  { name: "FastAPI", src: "/cloud/fastapi_logo.png" },
-  { name: "Laravel", src: "/cloud/laravel.png" },
-  { name: "PostgreSQL", src: "/cloud/postgresql.png" },
-  { name: "Redis", src: "/cloud/redis.svg" },
-  { name: "WhatsApp", src: "/cloud/whatsapp.png" },
-];
-
 const HeroSection = () => {
   return (
     <section
@@ -41,7 +31,7 @@ const HeroSection = () => {
                 <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
                   Novo
                 </span>
-                BlueSpark Cloud — deploy de apps, APIs e WhatsApp
+                BlueSpark Cloud — apps, APIs, email e WhatsApp
                 <ArrowRight className="h-3 w-3" />
               </a>
               <h1 className="text-4xl font-display font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -89,73 +79,22 @@ const HeroSection = () => {
             className="relative flex justify-center overflow-hidden animate-fade-in-right lg:justify-end"
             style={{ animationDelay: "0.3s" }}
           >
-            <div className="group relative cursor-pointer">
-              <div className="absolute inset-0 scale-90 rounded-[3rem] bg-indigo-gradient opacity-20 blur-3xl transition-all duration-500 group-hover:scale-95 group-hover:opacity-30" />
-
-              <div className="relative rounded-[2.5rem] border border-border/50 bg-card p-3 shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:shadow-indigo-lg">
-                <a
-                  href={CLOUD_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Abrir BlueSpark Cloud"
-                  className="relative block w-full max-w-[20rem] overflow-hidden rounded-[2rem] bg-background p-5 sm:max-w-[24rem] lg:w-[26rem] lg:max-w-none xl:w-[32rem]"
-                >
-                  <div className="flex items-center gap-3">
-                    <img src="/cloud/logo.png" alt="" width={40} height={40} className="size-10 object-contain" />
-                    <div className="text-left">
-                      <p className="text-lg font-display font-bold leading-tight text-foreground">
-                        BlueSpark <span className="text-primary">Cloud</span>
-                      </p>
-                      <p className="text-xs text-muted-foreground">Apps, APIs e automação WhatsApp</p>
-                    </div>
-                    <span className="ml-auto rounded-full bg-primary px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
-                      Novo
-                    </span>
-                  </div>
-
-                  <div className="fake-terminal mt-5 text-left" aria-hidden="true">
-                    <div className="fake-terminal-bar">
-                      <span className="fake-terminal-dot fake-terminal-dot-red" />
-                      <span className="fake-terminal-dot fake-terminal-dot-yellow" />
-                      <span className="fake-terminal-dot fake-terminal-dot-green" />
-                    </div>
-                    <div className="fake-terminal-body">
-                      <p className="ft-row">
-                        <span className="ft-prompt">$</span>
-                        <span className="ft-type ft-l1">bluespark init my-app</span>
-                      </p>
-                      <p className="ft-row">
-                        <span className="ft-prompt ft-p2">$</span>
-                        <span className="ft-type ft-l2">bluespark add postgres</span>
-                      </p>
-                      <p className="ft-row">
-                        <span className="ft-prompt ft-p3">$</span>
-                        <span className="ft-type ft-l3">bluespark up</span>
-                      </p>
-                      <p className="ft-row">
-                        <span className="ft-type ft-l4">✓ Deploy concluído em 14s</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 flex flex-wrap items-center gap-2">
-                    {cloudStacks.map((stack) => (
-                      <span
-                        key={stack.name}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground"
-                      >
-                        <img src={stack.src} alt="" className="size-4 object-contain" />
-                        {stack.name}
-                      </span>
-                    ))}
-                  </div>
-
-                  <p className="mt-4 text-center text-xs font-medium text-primary">
-                    cloud.bluesparkmz.com →
-                  </p>
-                </a>
-              </div>
-            </div>
+            <a
+              href={CLOUD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Abrir BlueSpark Cloud"
+              className="group relative block w-full max-w-[22rem] sm:max-w-[26rem] lg:max-w-[30rem] xl:max-w-[34rem]"
+            >
+              <div className="absolute inset-[12%] rounded-full bg-indigo-gradient opacity-25 blur-3xl transition-opacity duration-500 group-hover:opacity-40" />
+              <img
+                src="/cloud/cloud-server-hero.jpg"
+                alt="BlueSpark Cloud — servidor cloud"
+                width={1200}
+                height={900}
+                className="relative w-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </a>
           </div>
         </div>
       </div>
