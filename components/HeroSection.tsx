@@ -4,11 +4,124 @@ import { Button } from "@/components/ui/button";
 const CLOUD_URL = "https://cloud.bluesparkmz.com/";
 
 const floatingTags = [
-  { icon: Cloud, label: "Cloud Computing", className: "left-[6%] top-[12%] sm:left-[8%] sm:top-[18%]" },
-  { icon: BrainCircuit, label: "Inteligência Artificial", className: "right-[4%] top-[8%] sm:right-[6%] sm:top-[14%]" },
-  { icon: Code2, label: "APIs & Apps", className: "bottom-[14%] left-[10%] sm:bottom-[18%] sm:left-[14%]" },
-  { icon: Sparkles, label: "BlueSpark Cloud", className: "bottom-[10%] right-[6%] sm:bottom-[16%] sm:right-[10%]" },
+  { icon: Cloud, label: "Cloud Computing", className: "left-0 top-[8%] sm:left-[2%] sm:top-[12%]" },
+  { icon: BrainCircuit, label: "Inteligência Artificial", className: "right-0 top-[4%] sm:right-[2%] sm:top-[8%]" },
+  { icon: Code2, label: "APIs & Apps", className: "bottom-[8%] left-[2%] sm:bottom-[12%] sm:left-[6%]" },
+  { icon: Sparkles, label: "BlueSpark Cloud", className: "bottom-[4%] right-[2%] sm:bottom-[10%] sm:right-[4%]" },
 ];
+
+function HeroVisual() {
+  return (
+    <div className="relative mx-auto aspect-square w-full max-w-[34rem]">
+      <div className="pointer-events-none absolute inset-[8%] rounded-full bg-[radial-gradient(circle,hsl(255_77%_57%/0.28),transparent_68%)] blur-3xl hero-glow" />
+      <div className="pointer-events-none absolute left-[12%] top-[18%] size-40 rounded-full bg-[radial-gradient(circle,hsl(256_100%_75%/0.35),transparent_70%)] blur-2xl hero-float" />
+      <div
+        className="pointer-events-none absolute bottom-[16%] right-[10%] size-48 rounded-full bg-[radial-gradient(circle,hsl(255_77%_57%/0.22),transparent_70%)] blur-2xl hero-float"
+        style={{ animationDelay: "1.2s" }}
+      />
+
+      <svg
+        viewBox="0 0 520 520"
+        className="relative z-[1] h-full w-full"
+        role="img"
+        aria-label="Ilustração Cloud e Inteligência Artificial BlueSpark"
+      >
+        <defs>
+          <linearGradient id="bsOrb" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#A78BFA" />
+            <stop offset="55%" stopColor="#673DE6" />
+            <stop offset="100%" stopColor="#4C1D95" />
+          </linearGradient>
+          <linearGradient id="bsGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+            <stop offset="100%" stopColor="#E9E2FF" stopOpacity="0.75" />
+          </linearGradient>
+          <filter id="bsSoft" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="8" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* conexões digitais */}
+        <g stroke="#673DE6" strokeOpacity="0.22" strokeWidth="1.5" fill="none">
+          <path d="M110 150 C170 120, 220 200, 260 240" />
+          <path d="M400 130 C360 180, 330 210, 280 250" />
+          <path d="M120 360 C180 330, 220 300, 260 280" />
+          <path d="M410 370 C350 340, 310 300, 275 270" />
+        </g>
+        <g fill="#673DE6">
+          <circle cx="110" cy="150" r="4" opacity="0.45" />
+          <circle cx="400" cy="130" r="4" opacity="0.35" />
+          <circle cx="120" cy="360" r="3.5" opacity="0.4" />
+          <circle cx="410" cy="370" r="3.5" opacity="0.35" />
+          <circle cx="260" cy="240" r="3" opacity="0.5" />
+        </g>
+
+        {/* nuvem de vidro */}
+        <g filter="url(#bsSoft)" opacity="0.95">
+          <ellipse cx="250" cy="290" rx="150" ry="78" fill="url(#bsGlass)" />
+          <circle cx="170" cy="250" r="70" fill="url(#bsGlass)" />
+          <circle cx="250" cy="230" r="88" fill="url(#bsGlass)" />
+          <circle cx="335" cy="250" r="74" fill="url(#bsGlass)" />
+        </g>
+
+        {/* órbita / IA */}
+        <circle cx="258" cy="248" r="58" fill="url(#bsOrb)" opacity="0.95" />
+        <circle cx="258" cy="248" r="42" fill="none" stroke="#FFFFFF" strokeOpacity="0.35" strokeWidth="2" />
+        <g stroke="#FFFFFF" strokeOpacity="0.55" strokeWidth="1.4" fill="#FFFFFF">
+          <line x1="230" y1="230" x2="286" y2="266" />
+          <line x1="286" y1="230" x2="230" y2="266" />
+          <line x1="258" y1="214" x2="258" y2="282" />
+          <circle cx="230" cy="230" r="3.2" />
+          <circle cx="286" cy="230" r="3.2" />
+          <circle cx="230" cy="266" r="3.2" />
+          <circle cx="286" cy="266" r="3.2" />
+          <circle cx="258" cy="248" r="4.5" />
+        </g>
+
+        {/* anéis orbitais */}
+        <ellipse
+          cx="258"
+          cy="248"
+          rx="118"
+          ry="46"
+          fill="none"
+          stroke="#673DE6"
+          strokeOpacity="0.28"
+          strokeWidth="1.5"
+          transform="rotate(-18 258 248)"
+        />
+        <ellipse
+          cx="258"
+          cy="248"
+          rx="132"
+          ry="52"
+          fill="none"
+          stroke="#A78BFA"
+          strokeOpacity="0.2"
+          strokeWidth="1.2"
+          transform="rotate(24 258 248)"
+        />
+      </svg>
+
+      {floatingTags.map(({ icon: Icon, label, className }, index) => (
+        <div
+          key={label}
+          className={`hero-float absolute z-[2] hidden rounded-2xl border border-white/80 bg-white/90 px-3 py-2 shadow-[0_12px_40px_-20px_rgba(103,61,230,0.55)] backdrop-blur-md sm:flex sm:items-center sm:gap-2 ${className}`}
+          style={{ animationDelay: `${index * 0.45}s` }}
+        >
+          <span className="grid size-8 place-items-center rounded-xl bg-primary/10 text-primary">
+            <Icon className="size-4" />
+          </span>
+          <span className="text-xs font-semibold text-[#1B1340]">{label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const HeroSection = () => {
   return (
@@ -82,30 +195,7 @@ const HeroSection = () => {
             className="relative mx-auto w-full max-w-lg animate-fade-in-right lg:max-w-none"
             style={{ animationDelay: "0.15s" }}
           >
-            <div className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(circle_at_center,hsl(255_77%_57%/0.28),transparent_68%)] blur-2xl hero-glow" />
-
-            <div className="relative">
-              <img
-                src="/cloud/hero-tech-visual.jpg"
-                alt="Ilustração tecnológica BlueSpark — Cloud e Inteligência Artificial"
-                width={1200}
-                height={900}
-                className="relative z-[1] w-full object-contain drop-shadow-2xl"
-              />
-
-              {floatingTags.map(({ icon: Icon, label, className }, index) => (
-                <div
-                  key={label}
-                  className={`hero-float absolute z-[2] hidden rounded-2xl border border-white/70 bg-white/85 px-3 py-2 shadow-[0_10px_40px_-18px_rgba(103,61,230,0.55)] backdrop-blur-md sm:flex sm:items-center sm:gap-2 ${className}`}
-                  style={{ animationDelay: `${index * 0.45}s` }}
-                >
-                  <span className="grid size-8 place-items-center rounded-xl bg-primary/10 text-primary">
-                    <Icon className="size-4" />
-                  </span>
-                  <span className="text-xs font-semibold text-[#1B1340]">{label}</span>
-                </div>
-              ))}
-            </div>
+            <HeroVisual />
           </div>
         </div>
       </div>
