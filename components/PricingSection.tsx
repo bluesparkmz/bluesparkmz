@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Check, Cloud, Mail, Store } from "lucide-react";
+import { Check, Cloud, Mail, MessageCircle, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type Billing = "monthly" | "yearly";
-type ProductId = "cloud" | "mail" | "skypdv";
+type ProductId = "cloud" | "mail" | "whatsapp" | "skypdv";
 
 type Plan = {
   name: string;
@@ -132,6 +132,42 @@ const products: {
           "Prioridade no suporte",
           "Backup e retenção alargada",
           "Quota 50 GB por caixa",
+        ],
+      },
+    ],
+  },
+  {
+    id: "whatsapp",
+    label: "WhatsApp",
+    icon: MessageCircle,
+    plans: [
+      {
+        name: "Básico",
+        description: "Para testar e enviar mensagens manuais",
+        monthly: 0,
+        cta: "Começar grátis",
+        href: "https://cloud.bluesparkmz.com/dashboard/whatsapp",
+        items: [
+          "1 instância WhatsApp",
+          "Ligar número com QR",
+          "Envio de texto pelo playground",
+          "Sem webhooks",
+          "Ideal para testes",
+        ],
+      },
+      {
+        name: "Pro",
+        description: "Automação com webhooks e mais instâncias",
+        monthly: 6,
+        cta: "Escolher Pro",
+        href: "https://cloud.bluesparkmz.com/dashboard/whatsapp",
+        featured: true,
+        items: [
+          "Até 5 instâncias WhatsApp",
+          "Webhooks para eventos",
+          "Envio de texto e media via API",
+          "Token de API por instância",
+          "Suporte a automações",
         ],
       },
     ],
@@ -277,10 +313,12 @@ const PricingSection = () => {
         )}
 
         <div
-          className={`grid gap-5 ${
+          className={`mx-auto grid w-full gap-5 ${
             product.plans.length === 4
               ? "md:grid-cols-2 xl:grid-cols-4"
-              : "md:grid-cols-3"
+              : product.plans.length === 2
+                ? "max-w-3xl md:grid-cols-2"
+                : "md:grid-cols-3"
           }`}
         >
           {product.plans.map((plan) => {
