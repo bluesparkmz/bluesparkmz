@@ -7,7 +7,7 @@ const HeroSection = () => {
   return (
     <section
       id="inicio"
-      className="relative -mt-16 min-h-screen overflow-hidden bg-hero-gradient lg:-mt-20"
+      className="relative -mt-16 w-full min-h-screen overflow-hidden bg-hero-gradient lg:-mt-20"
     >
       <div className="container relative z-10 mx-auto flex min-h-screen items-center justify-center overflow-hidden px-4 pb-24 pt-32 lg:px-8 lg:pt-40">
         <div className="mx-auto max-w-3xl animate-fade-in space-y-8 text-center">

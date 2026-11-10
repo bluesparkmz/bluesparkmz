@@ -79,26 +79,25 @@ export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
               </span>
             </Link>
 
-            <div className="hidden items-center gap-8 lg:flex">
+            <div className="hidden items-center gap-7 lg:flex">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="group relative text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                  className="text-[15px] font-medium text-[#1B1340] transition-colors duration-200 hover:text-primary"
                 >
                   {link.label}
-                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
                 </a>
               ))}
             </div>
 
-            <div className="hidden items-center gap-3 lg:flex">
+            <div className="hidden items-center gap-2 lg:flex">
               {!isLoading && !user ? (
                 <>
-                  <Button variant="ghost" size="lg" asChild>
+                  <Button variant="nav-ghost" size="nav" asChild>
                     <Link href="/login">Entrar</Link>
                   </Button>
-                  <Button variant="hero" size="lg" asChild>
+                  <Button variant="nav" size="nav" asChild>
                     <Link href="/register">Criar conta</Link>
                   </Button>
                 </>
@@ -106,10 +105,10 @@ export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
 
               {!isLoading && user ? (
                 <>
-                  <Button variant="ghost" size="lg" asChild>
+                  <Button variant="nav-ghost" size="nav" asChild>
                     <Link href="/profile">Perfil</Link>
                   </Button>
-                  <Button variant="hero" size="lg" onClick={handleLogout}>
+                  <Button variant="nav" size="nav" onClick={handleLogout}>
                     Sair
                   </Button>
                 </>
@@ -141,7 +140,7 @@ export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="border-b border-border/60 py-5 text-2xl font-medium text-foreground"
+                  className="border-b border-border/60 py-5 text-2xl font-medium text-[#1B1340] transition-colors hover:text-primary"
                 >
                   {link.label}
                 </a>
@@ -153,12 +152,12 @@ export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
             <div className="flex flex-col gap-3">
               {!isLoading && !user ? (
                 <>
-                  <Button variant="outline" className="h-12 w-full" asChild>
+                  <Button variant="nav-ghost" size="lg" className="w-full" asChild>
                     <Link href="/login" onClick={() => setIsOpen(false)}>
                       Entrar
                     </Link>
                   </Button>
-                  <Button variant="hero" className="h-12 w-full" asChild>
+                  <Button variant="nav" size="lg" className="w-full" asChild>
                     <Link href="/register" onClick={() => setIsOpen(false)}>
                       Criar conta
                     </Link>
@@ -168,12 +167,12 @@ export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
 
               {!isLoading && user ? (
                 <>
-                  <Button variant="outline" className="h-12 w-full" asChild>
+                  <Button variant="nav-ghost" size="lg" className="w-full" asChild>
                     <Link href="/profile" onClick={() => setIsOpen(false)}>
                       Perfil
                     </Link>
                   </Button>
-                  <Button variant="hero" className="h-12 w-full" onClick={handleLogout}>
+                  <Button variant="nav" size="lg" className="w-full" onClick={handleLogout}>
                     Sair
                   </Button>
                 </>

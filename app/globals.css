@@ -106,19 +106,14 @@
     background-image: var(--gradient-instagram);
   }
 
-  /* Como a Proton: bg-white + SVG (bg-top bg-contain bg-no-repeat) a partir de md. */
+  /* SVG full-bleed: 100% de largura (0px left/right). contain deixava faixas brancas
+     porque o hero é min-h-screen e mais alto que o ratio do SVG. */
   .bg-hero-gradient {
     background-color: var(--gradient-hero);
-    background-image: none;
-    background-position: top;
-    background-size: contain;
+    background-image: url("/hero-gradients.svg");
+    background-position: top center;
+    background-size: 100% auto;
     background-repeat: no-repeat;
-  }
-
-  @media (min-width: 768px) {
-    .bg-hero-gradient {
-      background-image: url("/hero-gradients.svg");
-    }
   }
 
   .bg-indigo-gradient {
