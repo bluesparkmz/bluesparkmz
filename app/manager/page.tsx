@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { LogOut, RefreshCw, Search, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
@@ -19,6 +19,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 type AccessState = "checking" | "login" | "ready";
+type ActiveFilter = "all" | "active" | "inactive";
+
+const PAGE_SIZE = 50;
 
 function formatDate(value?: string | null) {
   if (!value) return "—";
@@ -120,11 +123,10 @@ export default function ManagerPage() {
   const [total, setTotal] = useState(0);
   const [q, setQ] = useState("");
   const [productCode, setProductCode] = useState("");
-  const [activeFilter, setActiveFilter] = useState<"all" | "active" | "inactive">("all");
+  const [activeFilter, setActiveFilter] = useState<ActiveFilter>("all");
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const limit = 50;
 
   const logout = useCallback(() => {
     localStorage.removeItem(adminStorage.accessTokenKey);
@@ -136,19 +138,32 @@ export default function ManagerPage() {
   }, []);
 
   const loadData = useCallback(
-    async (adminToken: string, nextOffset = offset) => {
+    async (
+      adminToken: string,
+      overrides: {
+        q?: string;
+        productCode?: string;
+        activeFilter?: ActiveFilter;
+        offset?: number;
+      } = {},
+    ) => {
+      const nextQ = overrides.q ?? q;
+      const nextProduct = overrides.productCode ?? productCode;
+      const nextActive = overrides.activeFilter ?? activeFilter;
+      const nextOffset = overrides.offset ?? offset;
+
       setLoading(true);
       setError(null);
       try {
         const isActive =
-          activeFilter === "all" ? null : activeFilter === "active";
+          nextActive === "all" ? null : nextActive === "active";
         const [nextOverview, page] = await Promise.all([
           getAdminOverview(adminToken),
           listAdminUsers(adminToken, {
-            q,
-            product_code: productCode || undefined,
+            q: nextQ,
+            product_code: nextProduct || undefined,
             is_active: isActive,
-            limit,
+            limit: PAGE_SIZE,
             offset: nextOffset,
           }),
         ]);
@@ -158,7 +173,15 @@ export default function ManagerPage() {
         setOffset(page.offset);
       } catch (cause) {
         const message = cause instanceof Error ? cause.message : "Falha ao carregar";
-        if (/401|403|admin|permiss/i.test(message) || message.toLowerCase().includes("token")) {
+        const lower = message.toLowerCase();
+        if (
+          lower.includes("token") ||
+          lower.includes("admin") ||
+          lower.includes("permiss") ||
+          lower.includes("unauthorized") ||
+          lower.includes("401") ||
+          lower.includes("403")
+        ) {
           logout();
           return;
         }
@@ -186,7 +209,7 @@ export default function ManagerPage() {
         setToken(stored);
         setAdmin(me);
         setAccess("ready");
-        await loadData(stored, 0);
+        await loadData(stored, { offset: 0 });
       } catch {
         localStorage.removeItem(adminStorage.accessTokenKey);
         if (!cancelled) setAccess("login");
@@ -201,15 +224,10 @@ export default function ManagerPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const productOptions = useMemo(
-    () => overview?.by_product ?? [],
-    [overview],
-  );
-
   const pageStart = total === 0 ? 0 : offset + 1;
   const pageEnd = Math.min(offset + users.length, total);
   const canPrev = offset > 0;
-  const canNext = offset + limit < total;
+  const canNext = offset + PAGE_SIZE < total;
 
   if (access === "checking") {
     return (
@@ -229,7 +247,7 @@ export default function ManagerPage() {
           setToken(nextToken);
           setAdmin(nextAdmin);
           setAccess("ready");
-          void loadData(nextToken, 0);
+          void loadData(nextToken, { offset: 0 });
         }}
       />
     );
@@ -254,7 +272,7 @@ export default function ManagerPage() {
               variant="outline"
               size="sm"
               disabled={loading}
-              onClick={() => void loadData(token, offset)}
+              onClick={() => void loadData(token)}
             >
               <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} />
               Atualizar
@@ -305,29 +323,29 @@ export default function ManagerPage() {
 
         {overview && overview.by_product.length > 0 ? (
           <section className="mt-4 flex flex-wrap gap-2">
-            {overview.by_product.map((product) => (
-              <button
-                key={product.product_code}
-                type="button"
-                onClick={() => {
-                  setProductCode(
-                    productCode === product.product_code ? "" : product.product_code,
-                  );
-                  setOffset(0);
-                  if (token) {
-                    void loadData(token, 0);
-                  }
-                }}
-                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-                  productCode === product.product_code
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-white text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                }`}
-              >
-                {product.product_name}
-                <span className="ml-1.5 opacity-70">{product.users_count}</span>
-              </button>
-            ))}
+            {overview.by_product.map((product) => {
+              const selected = productCode === product.product_code;
+              return (
+                <button
+                  key={product.product_code}
+                  type="button"
+                  onClick={() => {
+                    const next = selected ? "" : product.product_code;
+                    setProductCode(next);
+                    setOffset(0);
+                    void loadData(token, { productCode: next, offset: 0 });
+                  }}
+                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                    selected
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-white text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                  }`}
+                >
+                  {product.product_name}
+                  <span className="ml-1.5 opacity-70">{product.users_count}</span>
+                </button>
+              );
+            })}
           </section>
         ) : null}
 
@@ -340,9 +358,9 @@ export default function ManagerPage() {
                 value={q}
                 onChange={(event) => setQ(event.target.value)}
                 onKeyDown={(event) => {
-                  if (event.key === "Enter" && token) {
+                  if (event.key === "Enter") {
                     setOffset(0);
-                    void loadData(token, 0);
+                    void loadData(token, { q, offset: 0 });
                   }
                 }}
                 placeholder="Pesquisar email, username, nome ou telefone"
@@ -353,8 +371,10 @@ export default function ManagerPage() {
               className="h-10 rounded-md border border-input bg-background px-3 text-sm"
               value={activeFilter}
               onChange={(event) => {
-                setActiveFilter(event.target.value as "all" | "active" | "inactive");
+                const next = event.target.value as ActiveFilter;
+                setActiveFilter(next);
                 setOffset(0);
+                void loadData(token, { activeFilter: next, offset: 0 });
               }}
             >
               <option value="all">Todos</option>
@@ -365,7 +385,7 @@ export default function ManagerPage() {
               variant="outline"
               onClick={() => {
                 setOffset(0);
-                if (token) void loadData(token, 0);
+                void loadData(token, { offset: 0 });
               }}
             >
               Filtrar
@@ -424,9 +444,7 @@ export default function ManagerPage() {
                       <td className="px-4 py-4 align-top">
                         <span
                           className={
-                            user.is_active
-                              ? "text-emerald-700"
-                              : "text-muted-foreground"
+                            user.is_active ? "text-emerald-700" : "text-muted-foreground"
                           }
                         >
                           {user.is_active ? "Activo" : "Inactivo"}
@@ -455,9 +473,9 @@ export default function ManagerPage() {
                 size="sm"
                 disabled={!canPrev || loading}
                 onClick={() => {
-                  const next = Math.max(0, offset - limit);
+                  const next = Math.max(0, offset - PAGE_SIZE);
                   setOffset(next);
-                  void loadData(token, next);
+                  void loadData(token, { offset: next });
                 }}
               >
                 Anterior
@@ -467,9 +485,9 @@ export default function ManagerPage() {
                 size="sm"
                 disabled={!canNext || loading}
                 onClick={() => {
-                  const next = offset + limit;
+                  const next = offset + PAGE_SIZE;
                   setOffset(next);
-                  void loadData(token, next);
+                  void loadData(token, { offset: next });
                 }}
               >
                 Seguinte
@@ -477,9 +495,6 @@ export default function ManagerPage() {
             </div>
           </div>
         </section>
-
-        {/* productOptions kept for filter chips above; silence unused if empty */}
-        <span className="sr-only">{productOptions.length}</span>
       </main>
     </div>
   );
