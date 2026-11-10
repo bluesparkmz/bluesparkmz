@@ -312,15 +312,7 @@ const PricingSection = () => {
           <div className="mb-6 h-5" />
         )}
 
-        <div
-          className={`mx-auto grid w-full gap-5 ${
-            product.plans.length === 4
-              ? "md:grid-cols-2 xl:grid-cols-4"
-              : product.plans.length === 2
-                ? "max-w-3xl md:grid-cols-2"
-                : "md:grid-cols-3"
-          }`}
-        >
+        <div className="flex flex-wrap justify-center gap-5">
           {product.plans.map((plan) => {
             const monthlyShown =
               billing === "yearly" && plan.monthly > 0
@@ -330,34 +322,34 @@ const PricingSection = () => {
             return (
               <article
                 key={`${product.id}-${plan.name}`}
-                className={`relative flex flex-col rounded-2xl border bg-card p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-indigo ${
+                className={`relative flex w-full max-w-[250px] flex-col rounded-2xl border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-indigo ${
                   plan.featured
                     ? "border-primary shadow-[0_18px_50px_-28px_rgba(103,61,230,0.55)]"
                     : "border-border"
                 }`}
               >
                 {plan.featured ? (
-                  <div className="absolute inset-x-0 top-0 rounded-t-2xl bg-primary px-4 py-1.5 text-center text-[11px] font-bold uppercase tracking-wide text-primary-foreground">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary-foreground">
                     Recomendado
                   </div>
                 ) : null}
 
-                <div className={plan.featured ? "pt-7" : ""}>
-                  <h3 className="text-xl font-display font-bold text-[#0B0A12]">{plan.name}</h3>
-                  <p className="mt-2 min-h-[48px] text-sm text-muted-foreground">
+                <div className={plan.featured ? "pt-2" : ""}>
+                  <h3 className="text-lg font-display font-bold text-[#0B0A12]">{plan.name}</h3>
+                  <p className="mt-1 min-h-[40px] text-sm text-muted-foreground">
                     {plan.description}
                   </p>
 
-                  <p className="mt-6 flex items-end gap-1">
+                  <p className="mt-5 flex items-end gap-1">
                     <span className="text-sm font-medium text-muted-foreground">US$</span>
-                    <span className="text-5xl font-display font-extrabold tracking-tight text-[#0B0A12]">
+                    <span className="text-4xl font-display font-extrabold tracking-tight text-[#0B0A12]">
                       {formatPrice(monthlyShown)}
                     </span>
                     <span className="pb-1 text-sm text-muted-foreground">/mês</span>
                   </p>
                   {billing === "yearly" && plan.monthly > 0 ? (
                     <p className="mt-1 text-xs text-primary">
-                      US$ {formatPrice(plan.monthly * 10)} cobrados por ano
+                      US$ {formatPrice(plan.monthly * 10)} /ano
                     </p>
                   ) : (
                     <p className="mt-1 text-xs text-transparent">.</p>
@@ -365,16 +357,16 @@ const PricingSection = () => {
 
                   <Button
                     asChild
-                    className="mt-6 w-full"
+                    className="mt-5 w-full"
                     variant={plan.featured ? "nav" : "hero-outline"}
-                    size="lg"
+                    size="sm"
                   >
                     <a href={plan.href} target="_blank" rel="noopener noreferrer">
                       {plan.cta}
                     </a>
                   </Button>
 
-                  <ul className="mt-6 space-y-3 text-sm text-[#1B1340]/85">
+                  <ul className="mt-5 flex-1 space-y-2.5 text-sm text-[#1B1340]/85">
                     {plan.items.map((item) => (
                       <li key={item} className="flex items-start gap-2">
                         <Check className="mt-0.5 size-4 shrink-0 text-primary" />
