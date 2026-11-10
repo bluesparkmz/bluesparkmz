@@ -50,12 +50,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-
-      <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 animate-bounce sm:flex">
-        <div className="flex h-10 w-6 justify-center rounded-full border-2 border-muted-foreground/30 pt-2">
-          <div className="h-3 w-1.5 animate-pulse rounded-full bg-primary" />
-        </div>
-      </div>
     </section>
   );
 };

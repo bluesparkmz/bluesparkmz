@@ -74,8 +74,8 @@ export default function NavbarClient({ navLinks }: { navLinks: NavLink[] }) {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex h-16 items-center justify-between lg:h-20">
             <Link href="/" className="group">
-              <span className="text-xl font-display font-bold text-foreground">
-                Blue<span className="text-gradient-indigo">Spark</span> MZ
+              <span className="text-xl font-display font-bold text-primary">
+                BlueSpark MZ
               </span>
             </Link>
 
