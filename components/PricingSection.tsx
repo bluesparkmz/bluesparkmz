@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Check, Cloud, Mail, MessageCircle, Store } from "lucide-react";
+import { Check, Cloud, MessageCircle, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type Billing = "monthly" | "yearly";
-type ProductId = "cloud" | "mail" | "whatsapp" | "skypdv";
+type ProductId = "cloud" | "whatsapp" | "skypdv";
 
 type Plan = {
   name: string;
@@ -82,56 +82,6 @@ const products: {
           "20 emails (domínios ilimitados)",
           "Manutenção e suporte",
           "Ajuda em deploy e debug",
-        ],
-      },
-    ],
-  },
-  {
-    id: "mail",
-    label: "BlueSpark Mail",
-    icon: Mail,
-    plans: [
-      {
-        name: "Basic",
-        description: "Email profissional para começar",
-        monthly: 6,
-        cta: "Escolher Basic",
-        href: "https://cloud.bluesparkmz.com/dashboard/mail",
-        items: [
-          "Até 5 caixas de email",
-          "1 domínio próprio",
-          "Webmail, IMAP e SMTP",
-          "SSL/TLS e antispam",
-          "Quota 5 GB por caixa",
-        ],
-      },
-      {
-        name: "Pro",
-        description: "Para equipas e marcas em crescimento",
-        monthly: 25,
-        cta: "Escolher Pro",
-        href: "https://cloud.bluesparkmz.com/dashboard/mail",
-        featured: true,
-        items: [
-          "Até 25 caixas de email",
-          "Até 5 domínios",
-          "Aliases e encaminhamento",
-          "DKIM, SPF e DMARC",
-          "Quota 20 GB por caixa",
-        ],
-      },
-      {
-        name: "Premium",
-        description: "Capacidade e suporte para operações maiores",
-        monthly: 35,
-        cta: "Escolher Premium",
-        href: "https://cloud.bluesparkmz.com/dashboard/mail",
-        items: [
-          "Até 60 caixas de email",
-          "Domínios ilimitados",
-          "Prioridade no suporte",
-          "Backup e retenção alargada",
-          "Quota 50 GB por caixa",
         ],
       },
     ],
@@ -251,7 +201,7 @@ const PricingSection = () => {
             Planos simples para cada plataforma
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Escolha BlueSpark Cloud, BlueSpark Mail ou SkyPDV e comece no plano certo.
+            Escolha BlueSpark Cloud (apps, email e WhatsApp) ou SkyPDV e comece no plano certo.
           </p>
         </div>
 
