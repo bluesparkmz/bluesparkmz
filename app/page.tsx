@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import Navbar from "@/components/Navbar";
 import PortfolioSection from "@/components/PortfolioSection";
+import PricingSection from "@/components/PricingSection";
 import ServicesSection from "@/components/ServicesSection";
 import TeamSection from "@/components/TeamSection";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <AboutSection />
       <ServicesSection />
       <PortfolioSection />
+      <PricingSection />
       <TeamSection />
       <ContactSection />
       <Footer />
