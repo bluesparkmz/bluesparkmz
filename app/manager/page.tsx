@@ -1,24 +1,21 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { LogOut, RefreshCw, Search, ShieldCheck } from "lucide-react";
-import { toast } from "sonner";
+import { useAuth } from "@/components/auth/AuthProvider";
 import {
-  adminStorage,
-  getAdminMe,
   getAdminOverview,
+  isPlatformAdmin,
   listAdminUsers,
-  loginAdmin,
-  type AdminMe,
   type AdminOverview,
   type AdminUserListItem,
 } from "@/lib/accounts-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
-type AccessState = "checking" | "login" | "ready";
+type AccessState = "checking" | "denied" | "ready";
 type ActiveFilter = "all" | "active" | "inactive";
 
 const PAGE_SIZE = 50;
@@ -34,90 +31,10 @@ function formatDate(value?: string | null) {
   });
 }
 
-function ManagerLogin({
-  onSuccess,
-}: {
-  onSuccess: (token: string, admin: AdminMe) => void;
-}) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    setSubmitting(true);
-    try {
-      const tokens = await loginAdmin({ username, password });
-      localStorage.setItem(adminStorage.accessTokenKey, tokens.access_token);
-      const admin = await getAdminMe(tokens.access_token);
-      onSuccess(tokens.access_token, admin);
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Login de admin falhou");
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  return (
-    <div className="min-h-screen bg-hero-gradient">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-5 sm:px-6">
-        <Link href="/" className="font-display text-base font-bold text-primary sm:text-lg">
-          BlueSpark MZ
-        </Link>
-        <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          <ShieldCheck className="size-3.5" />
-          Manager
-        </span>
-      </header>
-
-      <main className="mx-auto flex min-h-[calc(100vh-76px)] w-full max-w-md items-center px-4 pb-12">
-        <section className="w-full rounded-2xl border border-border/70 bg-card p-6 shadow-[0_20px_60px_-30px_rgba(27,19,64,0.25)] sm:p-8">
-          <div className="mb-6 space-y-2 text-center">
-            <h1 className="font-display text-2xl font-bold tracking-tight text-[#0B0A12]">
-              Manager
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Acesso exclusivo a administradores BlueSpark.
-            </p>
-          </div>
-
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div className="space-y-2">
-              <Label htmlFor="admin-email">Email</Label>
-              <Input
-                id="admin-email"
-                autoComplete="username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                placeholder="admin@bluesparkmz.com"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="admin-password">Password</Label>
-              <Input
-                id="admin-password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-              />
-            </div>
-            <Button className="w-full" type="submit" disabled={submitting}>
-              {submitting ? "A entrar…" : "Entrar"}
-            </Button>
-          </form>
-        </section>
-      </main>
-    </div>
-  );
-}
-
 export default function ManagerPage() {
+  const router = useRouter();
+  const { user, accessToken, isLoading, logout } = useAuth();
   const [access, setAccess] = useState<AccessState>("checking");
-  const [token, setToken] = useState<string | null>(null);
-  const [admin, setAdmin] = useState<AdminMe | null>(null);
   const [overview, setOverview] = useState<AdminOverview | null>(null);
   const [users, setUsers] = useState<AdminUserListItem[]>([]);
   const [total, setTotal] = useState(0);
@@ -128,18 +45,9 @@ export default function ManagerPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const logout = useCallback(() => {
-    localStorage.removeItem(adminStorage.accessTokenKey);
-    setToken(null);
-    setAdmin(null);
-    setOverview(null);
-    setUsers([]);
-    setAccess("login");
-  }, []);
-
   const loadData = useCallback(
     async (
-      adminToken: string,
+      token: string,
       overrides: {
         q?: string;
         productCode?: string;
@@ -155,11 +63,10 @@ export default function ManagerPage() {
       setLoading(true);
       setError(null);
       try {
-        const isActive =
-          nextActive === "all" ? null : nextActive === "active";
+        const isActive = nextActive === "all" ? null : nextActive === "active";
         const [nextOverview, page] = await Promise.all([
-          getAdminOverview(adminToken),
-          listAdminUsers(adminToken, {
+          getAdminOverview(token),
+          listAdminUsers(token, {
             q: nextQ,
             product_code: nextProduct || undefined,
             is_active: isActive,
@@ -178,11 +85,9 @@ export default function ManagerPage() {
           lower.includes("token") ||
           lower.includes("admin") ||
           lower.includes("permiss") ||
-          lower.includes("unauthorized") ||
-          lower.includes("401") ||
-          lower.includes("403")
+          lower.includes("unauthorized")
         ) {
-          logout();
+          setAccess("denied");
           return;
         }
         setError(message);
@@ -190,46 +95,33 @@ export default function ManagerPage() {
         setLoading(false);
       }
     },
-    [activeFilter, logout, offset, productCode, q],
+    [activeFilter, offset, productCode, q],
   );
 
   useEffect(() => {
-    let cancelled = false;
+    if (isLoading) return;
 
-    async function bootstrap() {
-      const stored = localStorage.getItem(adminStorage.accessTokenKey);
-      if (!stored) {
-        if (!cancelled) setAccess("login");
-        return;
-      }
-
-      try {
-        const me = await getAdminMe(stored);
-        if (cancelled) return;
-        setToken(stored);
-        setAdmin(me);
-        setAccess("ready");
-        await loadData(stored, { offset: 0 });
-      } catch {
-        localStorage.removeItem(adminStorage.accessTokenKey);
-        if (!cancelled) setAccess("login");
-      }
+    if (!user || !accessToken) {
+      router.replace("/login?next=/manager");
+      return;
     }
 
-    void bootstrap();
-    return () => {
-      cancelled = true;
-    };
-    // bootstrap once on mount
+    if (!isPlatformAdmin(user)) {
+      setAccess("denied");
+      return;
+    }
+
+    setAccess("ready");
+    void loadData(accessToken, { offset: 0 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [accessToken, isLoading, router, user]);
 
   const pageStart = total === 0 ? 0 : offset + 1;
   const pageEnd = Math.min(offset + users.length, total);
   const canPrev = offset > 0;
   const canNext = offset + PAGE_SIZE < total;
 
-  if (access === "checking") {
+  if (access === "checking" || isLoading) {
     return (
       <div className="grid min-h-screen place-items-center bg-hero-gradient">
         <span
@@ -240,17 +132,35 @@ export default function ManagerPage() {
     );
   }
 
-  if (access === "login" || !token || !admin) {
+  if (access === "denied") {
     return (
-      <ManagerLogin
-        onSuccess={(nextToken, nextAdmin) => {
-          setToken(nextToken);
-          setAdmin(nextAdmin);
-          setAccess("ready");
-          void loadData(nextToken, { offset: 0 });
-        }}
-      />
+      <div className="grid min-h-screen place-items-center bg-hero-gradient px-4">
+        <div className="w-full max-w-md rounded-2xl border border-border/70 bg-card p-8 text-center">
+          <ShieldCheck className="mx-auto size-10 text-primary" />
+          <h1 className="mt-4 font-display text-2xl font-bold">Acesso restrito</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Só administradores BlueSpark podem entrar no Manager.
+          </p>
+          <div className="mt-6 flex justify-center gap-2">
+            <Button variant="outline" asChild>
+              <Link href="/">Início</Link>
+            </Button>
+            <Button
+              onClick={() => {
+                logout();
+                router.push("/login?next=/manager");
+              }}
+            >
+              Trocar conta
+            </Button>
+          </div>
+        </div>
+      </div>
     );
+  }
+
+  if (!user || !accessToken) {
+    return null;
   }
 
   return (
@@ -264,20 +174,28 @@ export default function ManagerPage() {
           <div className="ml-auto flex items-center gap-2">
             <div className="hidden text-right sm:block">
               <p className="text-sm font-medium text-foreground">
-                {admin.full_name || admin.email}
+                {user.full_name || user.email}
               </p>
-              <p className="text-xs text-muted-foreground">{admin.role}</p>
+              <p className="text-xs text-muted-foreground">admin</p>
             </div>
             <Button
               variant="outline"
               size="sm"
               disabled={loading}
-              onClick={() => void loadData(token)}
+              onClick={() => void loadData(accessToken)}
             >
               <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} />
               Atualizar
             </Button>
-            <Button variant="ghost" size="icon" aria-label="Sair" onClick={logout}>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Sair"
+              onClick={() => {
+                logout();
+                router.push("/login?next=/manager");
+              }}
+            >
               <LogOut className="size-4" />
             </Button>
           </div>
@@ -333,7 +251,7 @@ export default function ManagerPage() {
                     const next = selected ? "" : product.product_code;
                     setProductCode(next);
                     setOffset(0);
-                    void loadData(token, { productCode: next, offset: 0 });
+                    void loadData(accessToken, { productCode: next, offset: 0 });
                   }}
                   className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
                     selected
@@ -360,7 +278,7 @@ export default function ManagerPage() {
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
                     setOffset(0);
-                    void loadData(token, { q, offset: 0 });
+                    void loadData(accessToken, { q, offset: 0 });
                   }
                 }}
                 placeholder="Pesquisar email, username, nome ou telefone"
@@ -374,7 +292,7 @@ export default function ManagerPage() {
                 const next = event.target.value as ActiveFilter;
                 setActiveFilter(next);
                 setOffset(0);
-                void loadData(token, { activeFilter: next, offset: 0 });
+                void loadData(accessToken, { activeFilter: next, offset: 0 });
               }}
             >
               <option value="all">Todos</option>
@@ -385,7 +303,7 @@ export default function ManagerPage() {
               variant="outline"
               onClick={() => {
                 setOffset(0);
-                void loadData(token, { offset: 0 });
+                void loadData(accessToken, { offset: 0 });
               }}
             >
               Filtrar
@@ -416,23 +334,23 @@ export default function ManagerPage() {
                     </td>
                   </tr>
                 ) : (
-                  users.map((user) => (
-                    <tr key={user.id} className="border-b border-border/50 last:border-0">
+                  users.map((item) => (
+                    <tr key={item.id} className="border-b border-border/50 last:border-0">
                       <td className="px-4 py-4 align-top">
                         <p className="font-semibold text-foreground">
-                          {user.full_name || user.username}
+                          {item.full_name || item.username}
                         </p>
-                        <p className="text-xs text-muted-foreground">{user.email}</p>
-                        <p className="text-xs text-muted-foreground">@{user.username}</p>
+                        <p className="text-xs text-muted-foreground">{item.email}</p>
+                        <p className="text-xs text-muted-foreground">@{item.username}</p>
                       </td>
                       <td className="px-4 py-4 align-top">
-                        {user.apps.length === 0 ? (
+                        {item.apps.length === 0 ? (
                           <span className="text-muted-foreground">—</span>
                         ) : (
                           <div className="flex flex-wrap gap-1.5">
-                            {user.apps.map((app) => (
+                            {item.apps.map((app) => (
                               <span
-                                key={`${user.id}-${app}`}
+                                key={`${item.id}-${app}`}
                                 className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"
                               >
                                 {app}
@@ -444,17 +362,17 @@ export default function ManagerPage() {
                       <td className="px-4 py-4 align-top">
                         <span
                           className={
-                            user.is_active ? "text-emerald-700" : "text-muted-foreground"
+                            item.is_active ? "text-emerald-700" : "text-muted-foreground"
                           }
                         >
-                          {user.is_active ? "Activo" : "Inactivo"}
+                          {item.is_active ? "Activo" : "Inactivo"}
                         </span>
-                        {!user.is_verified ? (
+                        {!item.is_verified ? (
                           <p className="mt-1 text-xs text-amber-700">Não verificado</p>
                         ) : null}
                       </td>
                       <td className="px-4 py-4 align-top text-muted-foreground">
-                        {formatDate(user.created_at)}
+                        {formatDate(item.created_at)}
                       </td>
                     </tr>
                   ))
@@ -475,7 +393,7 @@ export default function ManagerPage() {
                 onClick={() => {
                   const next = Math.max(0, offset - PAGE_SIZE);
                   setOffset(next);
-                  void loadData(token, { offset: next });
+                  void loadData(accessToken, { offset: next });
                 }}
               >
                 Anterior
@@ -487,7 +405,7 @@ export default function ManagerPage() {
                 onClick={() => {
                   const next = offset + PAGE_SIZE;
                   setOffset(next);
-                  void loadData(token, { offset: next });
+                  void loadData(accessToken, { offset: next });
                 }}
               >
                 Seguinte

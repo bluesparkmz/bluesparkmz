@@ -22,8 +22,15 @@ export type AuthUser = {
   profile_image_url?: string | null;
   is_active: boolean;
   is_verified: boolean;
+  is_superuser?: boolean;
+  role?: string;
   memberships: ProductMembership[];
 };
+
+export function isPlatformAdmin(user: Pick<AuthUser, "role" | "is_superuser"> | null | undefined) {
+  if (!user) return false;
+  return user.role === "admin" || user.is_superuser === true;
+}
 
 export type AuthTokens = {
   access_token: string;

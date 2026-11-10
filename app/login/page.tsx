@@ -26,6 +26,7 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isHandingOff, setIsHandingOff] = useState(false);
   const [redirectUri, setRedirectUri] = useState<string | null>(null);
+  const [nextPath, setNextPath] = useState<string | null>(null);
   const [productCode, setProductCode] = useState<string | null>(null);
   const [provider, setProvider] = useState<string | null>(null);
   const shouldHideForm = isLoading || isHandingOff || !!user;
@@ -33,9 +34,13 @@ export default function LoginPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const nextRedirectUri = (params.get("redirect_uri") || "").trim() || null;
+    const rawNext = (params.get("next") || "").trim();
+    const safeNext =
+      rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : null;
     const nextProductCode = (params.get("product_code") || "").trim() || null;
     const nextProvider = (params.get("provider") || "").trim() || null;
     setRedirectUri(nextRedirectUri);
+    setNextPath(safeNext);
     setProductCode(nextProductCode);
     setProvider(nextProvider);
   }, []);
@@ -72,7 +77,7 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/profile");
+    router.push(nextPath || "/profile");
   }
 
   useEffect(() => {
@@ -84,7 +89,7 @@ export default function LoginPage() {
       }
 
       if (!redirectUri) {
-        router.replace("/profile");
+        router.replace(nextPath || "/profile");
         return;
       }
 
@@ -116,7 +121,7 @@ export default function LoginPage() {
     return () => {
       cancelled = true;
     };
-  }, [isLoading, logout, productCode, redirectUri, refreshToken, router, user]);
+  }, [isLoading, logout, nextPath, productCode, redirectUri, refreshToken, router, user]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
