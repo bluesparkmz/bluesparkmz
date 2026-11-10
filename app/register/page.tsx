@@ -164,10 +164,7 @@ export default function RegisterPage() {
 
   if (shouldHideForm) {
     return (
-      <AuthPageShell
-        title="Criar conta BlueSpark"
-        description={user ? "Sessao encontrada. A redirecionar..." : "A validar a sua sessao..."}
-      >
+      <AuthPageShell title="Criar conta">
         <div className="flex min-h-[220px] flex-col items-center justify-center gap-4 text-center">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
           <p className="text-sm text-muted-foreground">
@@ -179,10 +176,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthPageShell
-      title="Criar conta BlueSpark"
-      description="A mesma conta pode ser usada no SkyVenda, FastFood, SmartMoz e SkyPDV."
-    >
+    <AuthPageShell title="Criar conta">
       <GoogleOneTap />
 
       {step === "email" ? (

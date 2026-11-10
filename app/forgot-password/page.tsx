@@ -83,10 +83,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <AuthPageShell
-      title="Recuperar senha"
-      description="Receba um c\u00f3digo OTP no WhatsApp associado \u00e0 sua conta e defina uma nova senha."
-    >
+    <AuthPageShell title="Recuperar senha">
       <div className="space-y-6">
         <div className="flex gap-2 text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">
           <span className={step === "request" ? "text-primary" : ""}>1. Pedir OTP</span>

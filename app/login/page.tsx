@@ -145,10 +145,7 @@ export default function LoginPage() {
 
   if (shouldHideForm) {
     return (
-      <AuthPageShell
-        title="Entrar na sua conta"
-        description={user ? "Sessao encontrada. A redirecionar..." : "A validar a sua sessao..."}
-      >
+      <AuthPageShell title="Iniciar sessão">
         <div className="flex min-h-[220px] flex-col items-center justify-center gap-4 text-center">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
           <p className="text-sm text-muted-foreground">
@@ -160,10 +157,7 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthPageShell
-      title="Entrar na sua conta"
-      description="Use a conta central da BlueSpark MZ para aceder aos seus produtos."
-    >
+    <AuthPageShell title="Iniciar sessão">
       <GoogleOneTap />
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
