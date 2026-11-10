@@ -52,6 +52,71 @@ export const authStorage = {
   refreshTokenKey: "bluespark_refresh_token",
 };
 
+export const adminStorage = {
+  accessTokenKey: "bluespark_admin_access_token",
+};
+
+export type AdminMe = {
+  id: number;
+  email: string;
+  full_name?: string | null;
+  role: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdminMembership = {
+  id: number;
+  product_code: string;
+  product_name: string;
+  role: string;
+  status: string;
+};
+
+export type AdminUserListItem = {
+  id: number;
+  email: string;
+  username: string;
+  full_name?: string | null;
+  phone?: string | null;
+  is_active: boolean;
+  is_verified: boolean;
+  profile_image_url?: string | null;
+  created_at?: string | null;
+  memberships: AdminMembership[];
+  apps: string[];
+};
+
+export type AdminUsersPage = {
+  total: number;
+  limit: number;
+  offset: number;
+  items: AdminUserListItem[];
+};
+
+export type AdminProductStat = {
+  product_code: string;
+  product_name: string;
+  is_active: boolean;
+  users_count: number;
+};
+
+export type AdminOverview = {
+  total_users: number;
+  active_users: number;
+  inactive_users: number;
+  products_count: number;
+  by_product: AdminProductStat[];
+};
+
+export type AdminTokenResponse = {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  role: string;
+};
+
 function dispatchMaintenanceError() {
   if (typeof window === "undefined") {
     return;
@@ -188,6 +253,51 @@ export async function resetPassword(payload: {
 
 export async function getCurrentUser(token: string) {
   return apiRequest<AuthUser>("/auth/me", { token });
+}
+
+export async function loginAdmin(payload: { username: string; password: string }) {
+  const body = new URLSearchParams();
+  body.set("username", payload.username);
+  body.set("password", payload.password);
+  body.set("grant_type", "password");
+
+  return apiRequest<AdminTokenResponse>("/admin/token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body,
+  });
+}
+
+export async function getAdminMe(token: string) {
+  return apiRequest<AdminMe>("/admin/me", { token });
+}
+
+export async function getAdminOverview(token: string) {
+  return apiRequest<AdminOverview>("/admin/overview", { token });
+}
+
+export async function listAdminUsers(
+  token: string,
+  params: {
+    q?: string;
+    product_code?: string;
+    is_active?: boolean | null;
+    limit?: number;
+    offset?: number;
+  } = {},
+) {
+  const search = new URLSearchParams();
+  if (params.q?.trim()) search.set("q", params.q.trim());
+  if (params.product_code?.trim()) search.set("product_code", params.product_code.trim());
+  if (params.is_active === true || params.is_active === false) {
+    search.set("is_active", String(params.is_active));
+  }
+  if (params.limit != null) search.set("limit", String(params.limit));
+  if (params.offset != null) search.set("offset", String(params.offset));
+  const query = search.toString();
+  return apiRequest<AdminUsersPage>(`/admin/users${query ? `?${query}` : ""}`, { token });
 }
 
 export async function updateProfile(
